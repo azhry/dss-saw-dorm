@@ -12,15 +12,22 @@ require_once(__DIR__ . '/Config.php');
 class Criteria
 {
 	public $config;
+	public $type;
 
-	public function __construct()
+	public function __construct($type)
 	{
 		$this->config = Config::$config;
+		$this->type = $type;
 	}
 
 	public function set_config($config)
 	{
 		$this->config = $config;
+	}
+
+	public function get_type()
+	{
+		return $this->type;
 	}
 
 	public function get_config()
@@ -118,14 +125,12 @@ class Criteria
 					{
 						if (isset($criteria_value[$kk]['values'][$vv]))
 						{
-							echo $kk . ' ' . $vv . ' = ' . $criteria_value[$kk]['values'][$vv] . '<br/>'; 
 							$sum += $criteria_value[$kk]['values'][$vv];
 						}
 						else
 						{
 							$cvalues = $criteria_value[$kk]['values'];
 							$min_key = array_keys($cvalues, min($cvalues));
-							echo $kk . ' ' . $vv . ' = ' . $cvalues[$min_key[0]] . '<br/>'; 
 							$sum += $cvalues[$min_key[0]];
 						}
 					}

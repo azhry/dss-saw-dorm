@@ -88,7 +88,7 @@ class Config
 		],
 		'luas_kamar' => [
 			'key'		=> 'luas_kamar',
-			'weight'	=> 5,
+			'weight'	=> 4,
 			'label'		=> 'Luas Kamar',
 			'type'		=> 'range',
 			'values'	=> [

@@ -20,6 +20,12 @@ class Home extends MY_Controller
 	public function test()
 	{
 		$this->load->library('Saw/saw');
+		$this->saw->set_criteria_type([
+			'harga_sewa'	=> 'cost',
+			'lokasi'		=> 'cost',
+			'luas_kamar'	=> 'benefit',
+			'fasilitas'		=> 'benefit'
+		]);
 		$this->load->model('kost_m');
 		$kost = $this->kost_m->get();
 		$kost = array_map(function($x) {
@@ -27,6 +33,9 @@ class Home extends MY_Controller
 			return $x;
 		}, $kost);
 		$this->saw->fit($kost, ['id_kost', 'id_pengguna', 'kost', 'latitude', 'longitude']);
+		$this->saw->normalize();
+		$this->saw->result();
+		var_dump($this->saw->rank());
 	}
 
 	public function detail_ruko()
