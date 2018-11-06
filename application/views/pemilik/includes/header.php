@@ -35,7 +35,7 @@ License: You must have a valid license purchased only from themeforest(the above
 <link href="<?= base_url('assets/metronic') ?>/assets/global/plugins/bootstrap-daterangepicker/daterangepicker-bs3.css" rel="stylesheet" type="text/css"/>
 <link href="<?= base_url('assets/metronic') ?>/assets/global/plugins/fullcalendar/fullcalendar.min.css" rel="stylesheet" type="text/css"/>
 <link href="<?= base_url('assets/metronic') ?>/assets/global/plugins/jqvmap/jqvmap/jqvmap.css" rel="stylesheet" type="text/css"/>
-<link href="<?= base_url('assets/metronic') ?>/assets/global/plugins/morris/morris.css" rel="stylesheet" type="text/css">
+<!-- <link href="<?= base_url('assets/metronic') ?>/assets/global/plugins/morris/morris.css" rel="stylesheet" type="text/css"> -->
 <!-- END PAGE LEVEL PLUGIN STYLES -->
 <!-- BEGIN PAGE STYLES -->
 <link href="<?= base_url('assets/metronic') ?>/assets/admin/pages/css/tasks.css" rel="stylesheet" type="text/css"/>
@@ -48,7 +48,8 @@ License: You must have a valid license purchased only from themeforest(the above
 <link href="<?= base_url('assets/metronic') ?>/assets/admin/layout4/css/themes/light.css" rel="stylesheet" type="text/css" id="style_color"/>
 <link href="<?= base_url('assets/metronic') ?>/assets/admin/layout4/css/custom.css" rel="stylesheet" type="text/css"/>
 <!-- END THEME STYLES -->
-<link rel="shortcut icon" href="favicon.ico"/>
+<!-- <link rel="shortcut icon" href="favicon.ico"/> -->
+<script src="<?= base_url('assets/metronic') ?>/assets/global/plugins/jquery.min.js" type="text/javascript"></script>
 </head>
 <!-- END HEAD -->
 <!-- BEGIN BODY -->

@@ -49,7 +49,7 @@ class UploadHandler
             'input_stream' => 'php://input',
             'user_dirs' => false,
             'mkdir_mode' => 0755,
-            'param_name' => 'foto_ruko',
+            'param_name' => 'foto_kost',
             // Set the following option to 'POST', if your server does not support
             // DELETE requests. This is a parameter sent to the client:
             'delete_type' => 'DELETE',

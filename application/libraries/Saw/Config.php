@@ -10,7 +10,7 @@
 class Config
 {
 	public static $config = [
-		'harga_sewa_pertahun' => [
+		'harga_sewa' => [
 			'key'		=> 'harga_sewa_pertahun',
 			'weight'	=> 5,
 			'label'		=> 'Harga Sewa Pertahun',
@@ -130,534 +130,331 @@ class Config
 			'label'		=> 'Fasilitas',
 			'type'		=> 'criteria',
 			'values'	=> [
-				[
+				'tempat_tidur' => [
 					'label'		=> 'Tempat Tidur',
 					'key'		=> 'tempat_tidur',
 					'weight'	=> 0.7,
 					'type'		=> 'criteria',
 					'values'	=> [
-						[
+						'merk_tempat_tidur' => [
 							'label'		=> 'Merk Tempat Tidur',
 							'key'		=> 'merk_tempat_tidur',
 							'values'	=> [
-								[
-									'label'	=> 'Olympic',
-									'value'	=> 5
-								],
-								[
-									'label'	=> 'Bola Dunia',
-									'value'	=> 4
-								],
-								[
-									'label'	=> 'Sinar Dunia',
-									'value'	=> 3
-								],
-								[
-									'label'	=> 'Biloxy',
-									'value'	=> 2
-								],
-								[
-									'label'	=> 'dll',
-									'value'	=> 1
-								]
+								'Olympic'		=> 5,
+								'Bola Dunia'	=> 4,
+								'Sinar Dunia'	=> 3,
+								'Biloxy'		=> 2,
+								'dll'			=> 1
 							]
 						],
-						[
+						'bahan_tempat_tidur' => [
 							'label'		=> 'Bahan Tempat Tidur',
 							'key'		=> 'bahan_tempat_tidur',
 							'values'	=> [
-								[
-									'label'	=> 'Springbed',
-									'value'	=> 5
-								],
-								[
-									'label'	=> 'Busa',
-									'value'	=> 4
-								]
+								'Springbed'	=> 5,
+								'Busa'		=> 4
 							]
 						],
-						[
+						'ukuran_tempat_tidur' => [
 							'label'		=> 'Ukuran Tempat Tidur',
 							'key'		=> 'ukuran_tempat_tidur',
 							'values'	=> [
-								[
-									'label'	=> '160 x 120 cm',
-									'value'	=> 5
-								],
-								[
-									'label'	=> '120 x 200 cm',
-									'value'	=> 4
-								],
-								[
-									'label'	=> '90 x 200 cm',
-									'value'	=> 3
-								]
+								'160 x 120 cm'	=> 5,
+								'120 x 200 cm'	=> 4,
+								'90 x 200 cm'	=> 3
 							]
 						]
 					]
 				],
-				[
+				'lemari' => [
 					'label'		=> 'Lemari',
 					'key'		=> 'lemari',
 					'weight'	=> 0.5,
 					'type'		=> 'criteria',
 					'values'	=> [
-						[
+						'merk_lemari' => [
 							'label'		=> 'Merk Lemari',
 							'key'		=> 'merk_lemari',
 							'values'	=> [
-								[
-									'label'	=> 'Olympic',
-									'value'	=> 5
-								],
-								[
-									'label'	=> 'Napolly',
-									'value'	=> 4
-								],
-								[
-									'label'	=> 'Tidak Ada',
-									'value'	=> 3
-								]
+								'Olympic'	=> 5,
+								'Napolly'	=> 4,
+								'Tidak Ada'	=> 3
 							]
 						],
-						[
+						'bahan_lemari' => [
 							'label'		=> 'Bahan Lemari',
 							'key'		=> 'bahan_lemari',
 							'values'	=> [
-								[
-									'label'	=> 'Kayu Jati',
-									'value'	=> 5
-								],
-								[
-									'label'	=> 'Particle Board',
-									'value'	=> 4
-								],
-								[
-									'label'	=> 'Plastik',
-									'value'	=> 3
-								]
+								'Kayu Jati'			=> 5,
+								'Particle Board'	=> 4,
+								'Plastik'			=> 3
 							]
 						],
-						[
+						'ukuran_lemari' => [
 							'label'		=> 'Ukuran Lemari',
 							'key'		=> 'ukuran_lemari',
 							'values'	=> [
-								[
-									'label'	=> '150,5 x 59 x 200,1 cm',
-									'value'	=> 5
-								],
-								[
-									'label'	=> '100 x 60 x 200 cm',
-									'value'	=> 4
-								],
-								[
-									'label'	=> '80 x 40 x 182 cm',
-									'value'	=> 3
-								],
-								[
-									'label'	=> '50 x 42 x 107 cm',
-									'value'	=> 2
-								],
-								[
-									'label'	=> 'dll',
-									'value'	=> 1
-								]
+								'150,5 x 59 x 200,1 cm'	=> 5,
+								'100 x 60 x 200 cm'		=> 4,
+								'80 x 40 x 182 cm'		=> 3,
+								'50 x 42 x 107 cm'		=> 2,
+								'dll'					=> 1
 							]
 						]
 					]
 				],
-				[
+				'kipas_angin' => [
 					'label'		=> 'Kipas Angin',
 					'key'		=> 'kipas_angin',
 					'weight'	=> 0.3,
 					'type'		=> 'criteria',
 					'values'	=> [
-						[
+						'merk_kipas_angin' => [
 							'label'		=> 'Merk Kipas Angin',
 							'key'		=> 'merk_kipas_angin',
 							'values'	=> [
-								[
-									'label'	=> 'Panasonic',
-									'value'	=> 5
-								],
-								[
-									'label'	=> 'Cosmos',
-									'value'	=> 4
-								],
-								[
-									'label'	=> 'Maspion',
-									'value'	=> 3
-								]
+								'Panasonic'	=> 5,
+								'Cosmos'	=> 4,
+								'Maspion'	=> 3
 							]
 						],
-						[
+						'tipe_kipas_angin' => [
 							'label'		=> 'Tipe Kipas Angin',
 							'key'		=> 'tipe_kipas_angin',
 							'values'	=> [
-								[
-									'label'	=> 'Tempel di Dinding',
-									'value'	=> 5
-								]
+								'Tempel di Dinding'	=> 5
 							]
 						],
-						[
+						'ukuran_kipas_angin' => [
 							'label'		=> 'Ukuran Kipas Angin',
 							'key'		=> 'ukuran_kipas_angin',
 							'values'	=> [
-								[
-									'label'	=> '16 inch',
-									'value'	=> 5
-								],
-								[
-									'label'	=> '12 inch',
-									'value'	=> 4
-								]
+								'16 inch'	=> 5,
+								'12 inch'	=> 4
 							]
 						]
 					]
 				],
-				[
+				'kamar_mandi_dalam' => [
 					'label'		=> 'Kamar Mandi di Dalam',
 					'key'		=> 'kamar_mandi_dalam',
 					'weight'	=> 0.6,
 					'type'		=> 'criteria',
 					'values'	=> [
-						[
+						'fasilitas_kamar_mandi' => [
 							'label'		=> 'Fasilitas Kamar Mandi',
 							'key'		=> 'fasilitas_kamar_mandi',
 							'values'	=> [
-								[
-									'label'	=> 'Bak mandi plastik, gayung, kloset jongkok, PDAM 24 jam',
-									'value'	=> 5
-								],
-								[
-									'label'	=> 'Kloset duduk, ember besar, gayung, shower, PDAM 24 jam',
-									'value'	=> 4
-								],
-								[
-									'label'	=> 'Bak mandi keramik, kloset duduk, gayung',
-									'value'	=> 3
-								],
-								[
-									'label'	=> 'Bak mandi keramik, kloset jongkok, gayung',
-									'value'	=> 2
-								],
-								[
-									'label'	=> 'dll',
-									'value'	=> 1
-								]
+								'Bak mandi plastik, gayung, kloset jongkok, PDAM 24 jam'	=> 5,
+								'Kloset duduk, ember besar, gayung, shower, PDAM 24 jam'	=> 4,
+								'Bak mandi keramik, kloset duduk, gayung'					=> 3,
+								'Bak mandi keramik, kloset jongkok, gayung'					=> 2,
+								'dll'														=> 1
 							]
 						],
-						[
+						'ukuran_kamar_mandi' => [
 							'label'		=> 'Ukuran Kamar Mandi',
 							'key'		=> 'ukuran_kamar_mandi',
 							'values'	=> [
-								[
-									'label'	=> '200 x 200 cm',
-									'value'	=> 5
-								],
-								[
-									'label'	=> '150 x 150 cm',
-									'value'	=> 4
-								],
-								[
-									'label'	=> '140 x 120 cm',
-									'value'	=> 3
-								],
-								[
-									'label'	=> '100 x 100 cm',
-									'value'	=> 2
-								],
-								[
-									'label'	=> 'dll',
-									'value'	=> 1
-								]
-							]
-						],
-						[
-							'label'		=> 'Ukuran Kipas Angin',
-							'key'		=> 'ukuran_kipas_angin',
-							'values'	=> [
-								[
-									'label'	=> '16 inch',
-									'value'	=> 5
-								],
-								[
-									'label'	=> '12 inch',
-									'value'	=> 4
-								]
+								'200 x 200 cm'	=> 5,
+								'150 x 150 cm'	=> 4,
+								'140 x 120 cm'	=> 3,
+								'100 x 100 cm'	=> 2,
+								'dll'			=> 1
 							]
 						]
 					]
 				],
-				[
+				'meja_belajar' => [
 					'label'		=> 'Meja Belajar',
 					'key'		=> 'meja_belajar',
 					'weight'	=> 0.4,
 					'type'		=> 'criteria',
 					'values'	=> [
-						[
+						'merk_meja_belajar' => [
 							'label'		=> 'Merk Meja Belajar',
 							'key'		=> 'merk_meja_belajar',
 							'values'	=> [
-								[
-									'label'	=> 'Olympic',
-									'value'	=> 5
-								],
-								[
-									'label'	=> 'Tidak Ada Merk',
-									'value'	=> 4
-								]
+								'Olympic'			=> 5,
+								'Tidak Ada Merk'	=> 4
 							]
 						],
-						[
+						'bahan_meja_belajar' => [
 							'label'		=> 'Bahan Meja Belajar',
 							'key'		=> 'bahan_meja_belajar',
 							'values'	=> [
-								[
-									'label'	=> 'Kayu Jati',
-									'value'	=> 5
-								],
-								[
-									'label'	=> 'Particle Board',
-									'value'	=> 4
-								]
+								'Kayu Jati'			=> 5,
+								'Particle Board'	=> 4
 							]
 						],
-						[
+						'ukuran_meja_belajar' => [
 							'label'		=> 'Ukuran Meja Belajar',
 							'key'		=> 'ukuran_meja_belajar',
 							'values'	=> [
-								[
-									'label'	=> '120 x 60 x 80 cm',
-									'value'	=> 5
-								],
-								[
-									'label'	=> '120 x 60 x 74 cm',
-									'value'	=> 4
-								],
-								[
-									'label'	=> '110 x 45 x 80 cm',
-									'value'	=> 3
-								],
-								[
-									'label'	=> '90 x 40 x 73 cm',
-									'value'	=> 2
-								]
+								'120 x 60 x 80 cm'	=> 5,
+								'120 x 60 x 74 cm'	=> 4,
+								'110 x 45 x 80 cm'	=> 3,
+								'90 x 40 x 73 cm'	=> 2
 							]
 						]
 					]
 				],
-				[
+				'listrik' => [
 					'label'		=> 'Listrik',
 					'key'		=> 'listrik',
 					'weight'	=> 0.8,
 					'type'		=> 'criteria',
 					'values'	=> [
-						[
+						'listrik' => [
 							'label'		=> 'Listrik',
 							'key'		=> 'listrik',
 							'values'	=> [
-								[
-									'label'	=> 'Prabayar',
-									'value'	=> 5
-								],
-								[
-									'label'	=> 'Pascabayar',
-									'value'	=> 4
-								]
+								'Prabayar'		=> 5,
+								'Pascabayar'	=> 4
 							]
 						],
-						[
+						'watt_listrik' => [
 							'label'		=> 'Watt Listrik',
 							'key'		=> 'watt_listrik',
 							'values'	=> [
-								[
-									'label'	=> '900 watt',
-									'value'	=> 5
-								]
+								'900 watt'	=> 5
 							]
 						]
 					]
 				],
-				[
+				'mesin_cuci' => [
 					'label'		=> 'Mesin Cuci',
 					'key'		=> 'mesin_cuci',
 					'weight'	=> 0.3,
 					'type'		=> 'criteria',
 					'values'	=> [
-						[
+						'merk_mesin_cuci' => [
 							'label'		=> 'Merk Mesin Cuci',
 							'key'		=> 'merk_mesin_cuci',
 							'values'	=> [
-								[
-									'label'	=> 'Toshiba VH-E95LNEW (2 Tabung)',
-									'value'	=> 5
-								],
-								[
-									'label'	=> 'Panasonic NA-W60MB1 (2 Tabung)',
-									'value'	=> 4
-								]
+								'Toshiba VH-E95LNEW (2 Tabung)'		=> 5,
+								'Panasonic NA-W60MB1 (2 Tabung)'	=> 4
 							]
 						],
-						[
+						'kapasitas_mesin_cuci' => [
 							'label'		=> 'Kapasitas Mesin Cuci',
 							'key'		=> 'kapasitas_mesin_cuci',
 							'values'	=> [
-								[
-									'label'	=> '9 kg',
-									'value'	=> 5
-								],
-								[
-									'label'	=> '6 kg',
-									'value'	=> 4
-								]
+								'9 kg'	=> 5,
+								'6 kg'	=> 4
 							]
 						]
 					]
 				],
-				[
+				'kaca_kamar' => [
 					'label'		=> 'Kaca Kamar',
 					'key'		=> 'kaca_kamar',
 					'weight'	=> 0.4,
 					'type'		=> 'criteria',
 					'values'	=> [
-						[
+						'merk_kaca_kamar' => [
 							'label'		=> 'Merk Kaca Kamar',
 							'key'		=> 'merk_kaca_kamar',
 							'values'	=> [
-								[
-									'label'	=> 'Bingkai Kayu Jati',
-									'value'	=> 5
-								],
-								[
-									'label'	=> 'Besi Stainless',
-									'value'	=> 4
-								]
+								'Bingkai Kayu Jati'	=> 5,
+								'Besi Stainless'	=> 4
 							]
 						],
-						[
+						'ukuran_kaca_kamar' => [
 							'label'		=> 'Ukuran Kaca Kamar',
 							'key'		=> 'ukuran_kaca_kamar',
 							'values'	=> [
-								[
-									'label'	=> '100 x 80 cm',
-									'value'	=> 5
-								],
-								[
-									'label'	=> '70 x 30 cm',
-									'value'	=> 4
-								]
+								'100 x 80 cm'	=> 5,
+								'70 x 30 cm'	=> 4
 							]
 						]
 					]
 				],
-				[
+				'rak_buku' => [
 					'label'		=> 'Rak Buku',
 					'key'		=> 'rak_buku',
 					'weight'	=> 0.4,
 					'type'		=> 'criteria',
 					'values'	=> [
-						[
+						'bahan_rak_buku' => [
 							'label'		=> 'Bahan Rak Buku',
 							'key'		=> 'bahan_rak_buku',
 							'values'	=> [
-								[
-									'label'	=> 'Kayu Jati',
-									'value'	=> 5
-								]
+								'Kayu Jati'	=> 5
 							]
 						],
-						[
+						'ukuran_rak_buku' => [
 							'label'		=> 'Ukuran Rak Buku',
 							'key'		=> 'ukuran_rak_buku',
 							'values'	=> [
-								[
-									'label'	=> '100 x 40 cm',
-									'value'	=> 5
-								]
+								'100 x 40 cm'	=> 5
 							]
 						]
 					]
 				],
-				[
+				'wifi' => [
 					'label'		=> 'Wifi',
 					'key'		=> 'wifi',
 					'weight'	=> 0.3,
 					'type'		=> 'criteria',
 					'values'	=> [
-						[
+						'merk_wifi' => [
 							'label'		=> 'Merk Wifi',
 							'key'		=> 'merk_wifi',
 							'values'	=> [
-								[
-									'label'	=> 'Indihome',
-									'value'	=> 5
-								]
+								'Indihome'	=> 5
 							]
 						]
 					]
 				],
-				[
+				'laundry' => [
 					'label'		=> 'Laundry',
 					'key'		=> 'laundry',
 					'weight'	=> 0.2,
 					'type'		=> 'criteria',
 					'values'	=> [
-						[
+						'laundry' => [
 							'label'		=> 'Laundry',
 							'key'		=> 'laundry',
 							'values'	=> [
-								[
-									'label'	=> '2 baju 1 celana/hari',
-									'value'	=> 5
-								]
+								'2 baju 1 celana/hari'	=> 5
 							]
 						]
 					]
 				],
-				[
+				'kulkas' => [
 					'label'		=> 'Kulkas',
 					'key'		=> 'kulkas',
 					'weight'	=> 0.1,
 					'type'		=> 'criteria',
 					'values'	=> [
-						[
+						'merk_kulkas' => [
 							'label'		=> 'Merk Kulkas',
 							'key'		=> 'merk_kulkas',
 							'values'	=> [
-								[
-									'label'	=> 'Toshiba Glacio',
-									'value'	=> 5
-								]
+								'Toshiba Glacio'	=> 5
 							]
 						],
-						[
+						'kapasitas_kulkas' => [
 							'label'		=> 'Kapasitas Kulkas',
 							'key'		=> 'kapasitas_kulkas',
 							'values'	=> [
-								[
-									'label'	=> '150 liter',
-									'value'	=> 5
-								]
+								'150 liter'	=> 5
 							]
 						]
 					]
 				],
-				[
+				'ac' => [
 					'label'		=> 'AC',
 					'key'		=> 'ac',
 					'weight'	=> 0.2,
 					'type'		=> 'criteria',
 					'values'	=> [
-						[
+						'merk_ac' => [
 							'label'		=> 'Merk AC',
 							'key'		=> 'merk_ac',
 							'values'	=> [
-								[
-									'label'	=> 'Panasonic',
-									'value'	=> 5
-								]
+								'Panasonic'	=> 5
 							]
 						]
 					]

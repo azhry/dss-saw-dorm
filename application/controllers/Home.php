@@ -10,11 +10,23 @@ class Home extends MY_Controller
 
 	public function index()
 	{
-		$this->load->model('ruko_m');
-		$this->data['ruko']		= $this->ruko_m->get_by_order('id_ruko', 'DESC');
+		$this->load->model('kost_m');
+		$this->data['kost']		= $this->kost_m->get_by_order('id_kost', 'DESC');
 		$this->data['title']	= 'Home';
 		$this->data['content']	= 'home';
 		$this->template($this->data, $this->module);	
+	}
+
+	public function test()
+	{
+		$this->load->library('Saw/saw');
+		$this->load->model('kost_m');
+		$kost = $this->kost_m->get();
+		$kost = array_map(function($x) {
+			$x->fasilitas = json_decode($x->fasilitas, true);
+			return $x;
+		}, $kost);
+		$this->saw->fit($kost, ['id_kost', 'id_pengguna', 'kost', 'latitude', 'longitude']);
 	}
 
 	public function detail_ruko()

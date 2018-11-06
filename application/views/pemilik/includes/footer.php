@@ -18,7 +18,6 @@
 <script src="<?= base_url('assets/metronic') ?>/assets/global/plugins/respond.min.js"></script>
 <script src="<?= base_url('assets/metronic') ?>/assets/global/plugins/excanvas.min.js"></script> 
 <![endif]-->
-<script src="<?= base_url('assets/metronic') ?>/assets/global/plugins/jquery.min.js" type="text/javascript"></script>
 <script src="<?= base_url('assets/metronic') ?>/assets/global/plugins/jquery-migrate.min.js" type="text/javascript"></script>
 <!-- IMPORTANT! Load jquery-ui.min.js before bootstrap.min.js to fix bootstrap tooltip conflict with jquery ui tooltip -->
 <script src="<?= base_url('assets/metronic') ?>/assets/global/plugins/jquery-ui/jquery-ui.min.js" type="text/javascript"></script>
@@ -39,8 +38,8 @@
 <script src="<?= base_url('assets/metronic') ?>/assets/global/plugins/jqvmap/jqvmap/maps/jquery.vmap.usa.js" type="text/javascript"></script>
 <script src="<?= base_url('assets/metronic') ?>/assets/global/plugins/jqvmap/jqvmap/data/jquery.vmap.sampledata.js" type="text/javascript"></script>
 <!-- IMPORTANT! fullcalendar depends on jquery-ui.min.js for drag & drop support -->
-<script src="<?= base_url('assets/metronic') ?>/assets/global/plugins/morris/morris.min.js" type="text/javascript"></script>
-<script src="<?= base_url('assets/metronic') ?>/assets/global/plugins/morris/raphael-min.js" type="text/javascript"></script>
+<!-- <script src="<?= base_url('assets/metronic') ?>/assets/global/plugins/morris/morris.min.js" type="text/javascript"></script>
+<script src="<?= base_url('assets/metronic') ?>/assets/global/plugins/morris/raphael-min.js" type="text/javascript"></script> -->
 <script src="<?= base_url('assets/metronic') ?>/assets/global/plugins/jquery.sparkline.min.js" type="text/javascript"></script>
 <!-- END PAGE LEVEL PLUGINS -->
 <!-- BEGIN PAGE LEVEL SCRIPTS -->
@@ -48,7 +47,7 @@
 <script src="<?= base_url('assets/metronic') ?>/assets/admin/layout4/scripts/layout.js" type="text/javascript"></script>
 <script src="<?= base_url('assets/metronic') ?>/assets/admin/layout2/scripts/quick-sidebar.js" type="text/javascript"></script>
 <script src="<?= base_url('assets/metronic') ?>/assets/admin/layout4/scripts/demo.js" type="text/javascript"></script>
-<script src="<?= base_url('assets/metronic') ?>/assets/admin/pages/scripts/index3.js" type="text/javascript"></script>
+<!-- <script src="<?= base_url('assets/metronic') ?>/assets/admin/pages/scripts/index3.js" type="text/javascript"></script> -->
 <script src="<?= base_url('assets/metronic') ?>/assets/admin/pages/scripts/tasks.js" type="text/javascript"></script>
 <!-- END PAGE LEVEL SCRIPTS -->
 <script>
@@ -57,7 +56,7 @@ jQuery(document).ready(function() {
    Layout.init(); // init layout
    Demo.init(); // init demo features
    QuickSidebar.init(); // init quick sidebar
-    Index.init(); // init index page
+    // Index.init(); // init index page
  Tasks.initDashboardWidget(); // init tash dashboard widget  
 });
 </script>

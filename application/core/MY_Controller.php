@@ -2,7 +2,7 @@
 
 class MY_Controller extends CI_Controller
 {
-  	public $title 		= 'Sistem Sewa Ruko';
+  	public $title 		= 'Sistem Sewa Kost';
 	
 	public function __construct()
 	{

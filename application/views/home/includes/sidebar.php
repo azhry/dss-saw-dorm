@@ -1,23 +1,32 @@
-<div class="container body">
-    <div class="main_container">
-        <div class="col-md-3 left_col">
-            <div class="left_col scroll-view">
-                <div class="navbar nav_title" style="border: 0;">
-                    <a href="<?= base_url('') ?>" class="site_title"><i class="fa fa-paw"></i> <span>Sewa Ruko</span></a>
-                </div>
-                <div class="clearfix"></div>
-                <br />
-                <!-- sidebar menu -->
-                <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
-                    <div class="menu_section">
-                        <h3>Menu</h3>
-                        <ul class="nav side-menu">
-                            <li><a href="<?= base_url('home') ?>"><i class="fa fa-table"></i> Daftar Ruko</a></li>
-                            <li><a href="<?= base_url('home/cari') ?>"><i class="fa fa-search"></i> Cari Ruko</a></li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
+<!-- BEGIN SIDEBAR -->
+    <div class="page-sidebar-wrapper">
+        <!-- DOC: Set data-auto-scroll="false" to disable the sidebar from auto scrolling/focusing -->
+        <!-- DOC: Change data-auto-speed="200" to adjust the sub menu slide up/down speed -->
+        <div class="page-sidebar md-shadow-z-2-i  navbar-collapse collapse">
+            <!-- BEGIN SIDEBAR MENU -->
+            <!-- DOC: Apply "page-sidebar-menu-light" class right after "page-sidebar-menu" to enable light sidebar menu style(without borders) -->
+            <!-- DOC: Apply "page-sidebar-menu-hover-submenu" class right after "page-sidebar-menu" to enable hoverable(hover vs accordion) sub menu mode -->
+            <!-- DOC: Apply "page-sidebar-menu-closed" class right after "page-sidebar-menu" to collapse("page-sidebar-closed" class must be applied to the body element) the sidebar sub menu mode -->
+            <!-- DOC: Set data-auto-scroll="false" to disable the sidebar from auto scrolling/focusing -->
+            <!-- DOC: Set data-keep-expand="true" to keep the submenues expanded -->
+            <!-- DOC: Set data-auto-speed="200" to adjust the sub menu slide up/down speed -->
+            <ul class="page-sidebar-menu " data-keep-expanded="false" data-auto-scroll="true" data-slide-speed="200">
+                <li>
+                    <a href="<?= base_url('pemilik') ?>">
+                        <i class="icon-home"></i>
+                        <span class="title">Dashboard</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="<?= base_url('pemilik/daftar-kost') ?>">
+                        <i class="icon-list"></i>
+                        <span class="title">Daftar Kost</span>
+                    </a>
+                </li>
+            </ul>
+            <!-- END SIDEBAR MENU -->
         </div>
-        <!-- /sidebar menu -->
     </div>
+    <!-- END SIDEBAR -->
+    <!-- BEGIN CONTENT -->
+    <div class="page-content-wrapper">
