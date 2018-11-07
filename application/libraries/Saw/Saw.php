@@ -16,7 +16,8 @@ class Saw
 
 	public function set_criteria_type($type)
 	{
-		$this->criteria = new Criteria($type);
+		$this->criteria = new Criteria();
+		$this->criteria->set_type($type);
 		$config = $this->criteria->get_config();
 		$this->weights = [];
 		foreach ($config as $key => $value)

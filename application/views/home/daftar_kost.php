@@ -15,21 +15,10 @@
 			<div class="portlet box grey-cascade">
 				<div class="portlet-title">
 					<div class="caption">
-						<i class="fa fa-globe"></i>Manage Data
+						<i class="fa fa-globe"></i>
 					</div>
 				</div>
 				<div class="portlet-body">
-					<div class="table-toolbar">
-						<div class="row">
-							<div class="col-md-6">
-								<div class="btn-group">
-									<a href="<?= base_url('pemilik/tambah-kost') ?>" id="sample_editable_1_new" class="btn green">
-									Add New <i class="fa fa-plus"></i>
-									</a>
-								</div>
-							</div>
-						</div>
-					</div>
 					<table class="table table-striped table-bordered table-hover" id="sample_1">
 						<thead>
 							<tr>
@@ -67,9 +56,7 @@
 									</td>
 									<td>
 										<div class="btn-group btn-group-solid">
-											<!-- <button type="button" class="btn blue btn-sm"><i class="fa fa-edit"></i> Edit</button>
-											<button type="button" class="btn red btn-sm" onclick="hapus_kost('<?= $row->id_kost ?>');"><i class="fa fa-trash"></i> Delete</button> -->
-											<a href="<?= base_url('pemilik/detail-kost/' . $row->id_kost) ?>" class="btn blue btn-sm"><i class="fa fa-eye"></i> Lihat Info Detail</a>
+											<a href="<?= base_url('home/detail-kost/' . $row->id_kost) ?>" class="btn blue btn-sm"><i class="fa fa-eye"></i> Lihat Info Detail</a>
 										</div>
 									</td>
 								</tr>
@@ -91,18 +78,4 @@
 	$(document).ready(function() {
 		$('#sample_1').dataTable();
 	});
-
-	function hapus_kost(id_kost) {
-		$.ajax({
-			url: '<?= base_url('pemilik/daftar-kost') ?>',
-			type: 'POST',
-			data: {
-				delete: true,
-				id_kost: id_kost
-			},
-			success: function(response) {
-				window.location.href = '<?= base_url('pemilik/daftar-kost') ?>';
-			}
-		});
-	}
 </script>

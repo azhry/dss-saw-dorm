@@ -14,9 +14,13 @@ class Criteria
 	public $config;
 	public $type;
 
-	public function __construct($type)
+	public function __construct()
 	{
 		$this->config = Config::$config;
+	}
+
+	public function set_type($type)
+	{
 		$this->type = $type;
 	}
 

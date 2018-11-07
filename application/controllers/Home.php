@@ -11,31 +11,45 @@ class Home extends MY_Controller
 	public function index()
 	{
 		$this->load->model('kost_m');
-		$this->data['kost']		= $this->kost_m->get_by_order('id_kost', 'DESC');
-		$this->data['title']	= 'Home';
-		$this->data['content']	= 'home';
+		$this->load->library('Saw/criteria');
+		$this->data['config'] 		= $this->criteria->get_config();
+		$this->data['fasilitas']	= $this->data['config']['fasilitas']['values'];
+		$this->data['kost']			= $this->kost_m->get_by_order('id_kost', 'DESC');
+		$this->data['title']		= 'Home';
+		$this->data['content']		= 'home';
 		$this->template($this->data, $this->module);	
 	}
 
-	public function test()
+	public function documentation()
 	{
-		$this->load->library('Saw/saw');
-		$this->saw->set_criteria_type([
-			'harga_sewa'	=> 'cost',
-			'lokasi'		=> 'cost',
-			'luas_kamar'	=> 'benefit',
-			'fasilitas'		=> 'benefit'
-		]);
+		redirect('assets/metronic/templates/admin4_material_design/');
+	}
+
+	public function daftar_kost()
+	{
 		$this->load->model('kost_m');
-		$kost = $this->kost_m->get();
-		$kost = array_map(function($x) {
-			$x->fasilitas = json_decode($x->fasilitas, true);
-			return $x;
-		}, $kost);
-		$this->saw->fit($kost, ['id_kost', 'id_pengguna', 'kost', 'latitude', 'longitude']);
-		$this->saw->normalize();
-		$this->saw->result();
-		var_dump($this->saw->rank());
+		$this->data['kost']		= $this->kost_m->get_by_order('id_kost', 'DESC');
+		$this->data['title']	= 'Daftar Kost';
+		$this->data['content']	= 'daftar_kost';
+		$this->template($this->data, $this->module);
+	}
+
+	public function detail_kost()
+	{
+		$this->data['id_kost']	= $this->uri->segment(3);
+		$this->check_allowance(!isset($this->data['id_kost']));
+
+		$this->load->model('kost_m');
+		$this->data['kost']			= $this->kost_m->get_row(['id_kost' => $this->data['id_kost']]);
+		$this->check_allowance(!isset($this->data['kost']), ['Data kost tidak ditemukan', 'danger']);
+
+		$this->data['upload_dir'] 			= FCPATH . 'assets/foto/kost-' . $this->data['kost']->id_kost;
+		$this->data['files']				= array_values(array_diff(scandir($this->data['upload_dir']), ['.', '..']));
+		$this->data['upload_path'] 			= base_url('assets/foto/kost-' . $this->data['kost']->id_kost);	
+
+		$this->data['title']				= 'Detail Informasi Kost';
+		$this->data['content']				= 'detail_kost';
+		$this->template($this->data, $this->module);
 	}
 
 	public function detail_ruko()
@@ -81,194 +95,137 @@ class Home extends MY_Controller
 	{
 		if ($this->POST('cari'))
 		{
-			$this->load->model('ruko_m');
+			$this->load->library('Saw/criteria');
+			$this->data['config'] 		= $this->criteria->get_config();
+			$this->data['fasilitas']	= $this->data['config']['fasilitas']['values'];
+			$this->load->library('Saw/saw');
+
+			$this->load->model('kost_m');
 			$cond = '';
 			
-			if (!empty($this->POST('biaya_sewa')))
+			if (!empty($this->POST('harga_sewa')))
 			{
-				$biaya_sewa = $this->POST('biaya_sewa');
-				switch ($biaya_sewa)
+				$harga_sewa = $this->POST('harga_sewa');
+				switch ($harga_sewa)
 				{
 					case 1:
-						$cond .= 'biaya_sewa > 187400000 ';
+						$cond .= 'harga_sewa >= 11400000 ';
 						break;
 					case 2:
-						$cond .= '(biaya_sewa >= 149300000 AND biaya_sewa <= 187300000) ';
+						$cond .= '(harga_sewa >= 10300000 AND harga_sewa <= 11300000) ';
 						break;
 					case 3:
-						$cond .= '(biaya_sewa >= 111200000 AND biaya_sewa <= 149200000) ';
+						$cond .= '(harga_sewa >= 9200000 AND harga_sewa <= 10200000) ';
 						break;
 					case 4:
-						$cond .= '(biaya_sewa >= 73100000 AND biaya_sewa <= 111100000) ';
+						$cond .= '(harga_sewa >= 8100000 AND harga_sewa <= 9100000) ';
 						break;
 					case 5:
-						$cond .= 'biaya_sewa <= 7300000 ';
+						$cond .= 'harga_sewa <= 8000000 ';
 						break;
 				}
 			}
 
-			if (!empty($this->POST('luas_bangunan')))
+			if (!empty($this->POST('lokasi')))
 			{
 				if (strlen($cond) > 0)
 				{
 					$cond .= 'AND ';
 				}
 
-				$luas_bangunan = $this->POST('luas_bangunan');
-				switch ($luas_bangunan)
+				$lokasi = $this->POST('lokasi');
+				switch ($lokasi)
 				{
-					case 5:
-						$cond .= 'luas_bangunan > 108 ';
-						break;
 					case 1:
-						$cond .= '(luas_bangunan >= 93 AND luas_bangunan <= 107) ';
-						break;
-					case 3:
-						$cond .= '(luas_bangunan >= 63 AND luas_bangunan <= 77) ';
-						break;
-					case 4:
-						$cond .= '(luas_bangunan >= 78 AND luas_bangunan <= 92) ';
+						$cond .= 'lokasi >= 108 ';
 						break;
 					case 2:
-						$cond .= 'luas_bangunan <= 62 ';
+						$cond .= '(lokasi >= 93 AND lokasi <= 107) ';
+						break;
+					case 3:
+						$cond .= '(lokasi >= 63 AND lokasi <= 77) ';
+						break;
+					case 4:
+						$cond .= '(lokasi >= 78 AND lokasi <= 92) ';
+						break;
+					case 5:
+						$cond .= 'lokasi <= 62 ';
 						break;
 				}
 			}
 
-			$len_akses = count($this->POST('akses_menuju_lokasi'));
-			if ($len_akses > 0)
+			foreach ($this->data['fasilitas'] as $key => $value)
 			{
-				if (strlen($cond) > 0)
-				{
-					$cond .= 'AND ';
-				}
-
 				$i = 0;
-				$cond .= '(';
-				foreach ($this->POST('akses_menuju_lokasi') as $akses)
+				foreach ($value['values'] as $k => $v)
 				{
-					$cond .= 'akses_menuju_lokasi LIKE "%' . $akses . '%"';
-					if ($i++ < $len_akses - 1)
+					$key = $this->POST($k);
+					if (isset($key) && !empty($key))
 					{
-						$cond .= ' AND ';
+						if (strlen($cond) > 0 && $i <= 0)
+						{
+							$cond .= 'AND ';
+						}
+						$cond .= ($i > 0 ? 'AND ' : ' ') . 'fasilitas LIKE \'%';
+						$cond .= '"' . $k . '":"' . $this->POST($k) . '"%\' ';
+						$i++;
 					}
 				}
-				$cond .= ') ';
 			}
 
-			$len_pusat_keramaian = count($this->POST('pusat_keramaian'));
-			if ($len_pusat_keramaian > 0)
-			{
-				if (strlen($cond) > 0)
-				{
-					$cond .= 'AND ';
-				}
-
-				$i = 0;
-				$cond .= '(';
-				foreach ($this->POST('pusat_keramaian') as $keramaian)
-				{
-					$cond .= 'pusat_keramaian LIKE "%' . $keramaian . '%"';
-					if ($i++ < $len_pusat_keramaian - 1)
-					{
-						$cond .= ' AND ';
-					}
-				}
-				$cond .= ') ';
-			}
-
-			if (!empty($this->POST('zona_parkir')))
+			if (!empty($this->POST('luas_kamar')))
 			{
 				if (strlen($cond) > 0)
 				{
 					$cond .= 'AND ';
 				}
 				
-				$zona_parkir = $this->POST('zona_parkir');
-				switch ($zona_parkir)
+				$luas_kamar = $this->POST('luas_kamar');
+				switch ($luas_kamar)
 				{
-					case 4:
-						$cond .= 'zona_parkir > 10.8 ';
-						break;
 					case 1:
-						$cond .= '(zona_parkir >= 9.1 AND zona_parkir <= 10.7) ';
-						break;
-					case 3:
-						$cond .= '(zona_parkir >= 7.4 AND zona_parkir <= 9) ';
-						break;
-					case 5:
-						$cond .= '(zona_parkir >= 5.7 AND zona_parkir <= 7.3) ';
+						$cond .= 'luas_kamar <= 9 ';
 						break;
 					case 2:
-						$cond .= 'zona_parkir <= 5.6 ';
+						$cond .= '(luas_kamar >= 10 AND luas_kamar <= 13) ';
 						break;
-				}
-			}
-
-			if (!empty($this->POST('jumlah_pesaing_serupa')))
-			{
-				if (strlen($cond) > 0)
-				{
-					$cond .= 'AND ';
-				}
-				
-				$jumlah_pesaing_serupa = $this->POST('jumlah_pesaing_serupa');
-				switch ($jumlah_pesaing_serupa)
-				{
 					case 3:
-						$cond .= 'jumlah_pesaing_serupa > 6 ';
-						break;
-					case 1:
-						$cond .= '(jumlah_pesaing_serupa >= 5 AND jumlah_pesaing_serupa <= 6) ';
-						break;
-					case 2:
-						$cond .= '(jumlah_pesaing_serupa >= 3 AND jumlah_pesaing_serupa <= 4) ';
-						break;
-					case 5:
-						$cond .= '(jumlah_pesaing_serupa >= 1 AND jumlah_pesaing_serupa <= 2) ';
+						$cond .= '(luas_kamar >= 14 AND luas_kamar <= 17) ';
 						break;
 					case 4:
-						$cond .= 'jumlah_pesaing_serupa <= 0 ';
+						$cond .= '(luas_kamar >= 18 AND luas_kamar <= 21) ';
+						break;
+					case 5:
+						$cond .= 'luas_kamar >= 22 ';
 						break;
 				}
 			}
 
-			$tingkat_konsumtif_masyarakat = $this->POST('tingkat_konsumtif_masyarakat');
-			if (!empty($tingkat_konsumtif_masyarakat))
-			{
-				if (strlen($cond) > 0)
-				{
-					$cond .= 'AND ';
-				}
-				
-				$cond .= 'tingkat_konsumtif_masyarakat = "' . $tingkat_konsumtif_masyarakat . '" ';
-			}
+			$this->data['kost']	= $this->kost_m->get($cond);
+			$this->saw->set_criteria_type([
+				'harga_sewa'	=> 'cost',
+				'lokasi'		=> 'cost',
+				'luas_kamar'	=> 'benefit',
+				'fasilitas'		=> 'benefit'
+			]);
+			$this->load->model('kost_m');
+			$this->data['kost'] = array_map(function($x) {
+				$x->fasilitas = json_decode($x->fasilitas, true);
+				return $x;
+			}, $this->data['kost']);
+			$this->saw->fit($this->data['kost'], ['id_kost', 'id_pengguna', 'kost', 'latitude', 'longitude']);
+			$this->saw->normalize();
+			$this->saw->result();
 
-			$lingkungan_lokasi_ruko = $this->POST('lingkungan_lokasi_ruko');
-			if (!empty($lingkungan_lokasi_ruko))
-			{
-				if (strlen($cond) > 0)
-				{
-					$cond .= 'AND ';
-				}
-				
-				$cond .= 'lingkungan_lokasi_ruko = "' . $lingkungan_lokasi_ruko . '" ';
-			}
-
-			$this->data['ruko']	= $this->ruko_m->get($cond);
-
-			$this->load->library('Topsis/topsis');
-			$this->topsis->fit($this->data['ruko'], ['ruko', 'id_ruko', 'id_pengguna', 'latitude', 'longitude']);
-			$this->topsis->weight();
-			$this->topsis->solution_distance();
-			$rank = $this->topsis->rank();
+			$rank = $this->saw->rank();
 			$rank = array_map(function($row) {
 				$row = (array)$row;
-				$path = 'assets/foto/ruko-' . $row['id_ruko'];
+				$path = 'assets/foto/kost-' . $row['id_kost'];
 				$foto = scandir(FCPATH . $path);
 				$foto = array_values(array_diff($foto, ['.', '..']));
+				$row['fasilitas'] = implode(',', array_keys($row['fasilitas']));
 				$row['foto'] = isset($foto[0]) ? base_url($path . '/' . $foto[0]) : 'http://placehold.it/313x313';
-				$row['biaya_sewa'] = 'Rp. ' . number_format($row['biaya_sewa'], 2, ',', '.');
+				$row['harga_sewa'] = 'Rp. ' . number_format($row['harga_sewa'], 2, ',', '.');
 				return $row;
 			}, $rank);
 			echo json_encode($rank);

@@ -55,26 +55,15 @@ class Pemilik extends MY_Controller
 		$this->check_allowance(!isset($this->data['id_kost']));
 
 		$this->load->model('kost_m');
-		$this->data['kost']			= $this->ruko_m->get_row(['id_kost' => $this->data['id_kost']]);
-		$this->check_allowance(!isset($this->data['kost']), ['Data kost tidak ditemukan', 'danger']);	
-	}
+		$this->data['kost']			= $this->kost_m->get_row(['id_kost' => $this->data['id_kost']]);
+		$this->check_allowance(!isset($this->data['kost']), ['Data kost tidak ditemukan', 'danger']);
 
-	public function detail_ruko()
-	{
-		$this->data['id_ruko']	= $this->uri->segment(3);
-		$this->check_allowance(!isset($this->data['id_ruko']));
-
-		$this->load->model('ruko_m');
-		$this->data['ruko']			= $this->ruko_m->get_row(['id_ruko' => $this->data['id_ruko']]);
-		$this->check_allowance(!isset($this->data['ruko']), ['Data ruko tidak ditemukan', 'danger']);
-
-		$this->data['upload_dir'] 			= FCPATH . 'assets/foto/ruko-' . $this->data['ruko']->id_ruko;
+		$this->data['upload_dir'] 			= FCPATH . 'assets/foto/kost-' . $this->data['kost']->id_kost;
 		$this->data['files']				= array_values(array_diff(scandir($this->data['upload_dir']), ['.', '..']));
-		$this->data['upload_path'] 			= base_url('assets/foto/ruko-' . $this->data['ruko']->id_ruko);
-		$this->data['akses_menuju_lokasi']	= json_decode($this->data['ruko']->akses_menuju_lokasi);
-		$this->data['pusat_keramaian']		= json_decode($this->data['ruko']->pusat_keramaian);
-		$this->data['title']				= 'Detail Informasi Ruko';
-		$this->data['content']				= 'detail_ruko';
+		$this->data['upload_path'] 			= base_url('assets/foto/kost-' . $this->data['kost']->id_kost);	
+
+		$this->data['title']				= 'Detail Informasi Kost';
+		$this->data['content']				= 'detail_kost';
 		$this->template($this->data, $this->module);
 	}
 
