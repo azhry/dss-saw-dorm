@@ -98,7 +98,7 @@
 					<div class="booking-offer-in" style="background-color: rgba(0, 0, 0, 0.5);">
 						<span>Anda pemilik kostan?</span>
 						<em>
-							<u><a style="color: white !important;" href="#">Daftar sekarang</a></u>
+							<u><a style="color: white !important;" href="<?= base_url('login') ?>">Daftar sekarang</a></u>
 						</em>
 					</div>
 				</div>
@@ -117,6 +117,13 @@
 		var fasilitas = [];
 
 		function search() {
+			<?php 
+				$username = $this->session->userdata('username'); 
+				if (!isset($username)):
+			?>
+				window.location.href = '<?= base_url('login') ?>';				
+			<?php endif; ?>
+
 			let form_data = {
 				cari: true,
 				harga_sewa: $('#harga_sewa').val(),
@@ -174,6 +181,7 @@
 				type: 'POST',
 				data: form_data,
 				success: function(response) {
+					console.log(response);
 					let json = $.parseJSON(response);
 					let html = '';
 					for (let i = 0; i < json.length; i++) {

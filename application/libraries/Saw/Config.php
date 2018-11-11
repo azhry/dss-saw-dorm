@@ -11,7 +11,7 @@ class Config
 {
 	public static $config = [
 		'harga_sewa' => [
-			'key'		=> 'harga_sewa_pertahun',
+			'key'		=> 'harga_sewa',
 			'weight'	=> 5,
 			'label'		=> 'Harga Sewa Pertahun',
 			'type'		=> 'range',

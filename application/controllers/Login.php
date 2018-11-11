@@ -17,6 +17,14 @@ class Login extends MY_Controller
 				case 1:
 					redirect('pemilik');
 					break;
+
+				case 2:
+					redirect('admin');
+					break;
+
+				default:
+					redirect('home');
+					break;
 			}
 
 		}
@@ -53,23 +61,32 @@ class Login extends MY_Controller
 		$this->load->view('login',$this->data);
 	}
 
-	public function daftar()
-  	{
-	    $this->load->view('daftar');
-	}	
+	public function register()
+	{
+		if ($this->POST('register-submit'))
+		{
+			$this->load->model('pengguna_m');
+			$password = $this->POST('password');
+			$rpassword = $this->POST('rpassword');
+			if ($password !== $rpassword)
+			{
+				$this->flashmsg('Pendaftaran gagal.', 'danger');
+				redirect('login');
+			}
 
-	public function laporan()
-    {
-        $this->load->model('pelamar_m');
-        $this->load->model('hasil_penilaian_m');
-        $this->load->model('keputusan_m');
-        $this->load->model('kriteria_m');
-        $this->load->model('bobot_m');
-        $this->load->model('penilaian_m');
+			$this->data['pengguna'] = [
+				'username'	=> $this->POST('username'),
+				'password'	=> md5($password),
+				'nama'		=> $this->POST('nama'),
+				'email'		=> $this->POST('email'),
+				'kontak'	=> $this->POST('kontak'),
+				'id_role'	=> $this->POST('id_role'),
+				'alamat'	=> $this->POST('alamat')
+			];
 
-        $this->data['kriteria'] = $this->kriteria_m->get();
-        $this->data['hasil']    = $this->hasil_penilaian_m->get_by_order('hasil', 'DESC');
-        $this->data['title']    = 'Ranking Pelamar';
-        $this->load->view('supervisor/laporan', $this->data);
-    }
+			$this->pengguna_m->insert($this->data['pengguna']);
+			$this->flashmsg('Pendaftaran berhasil. Silahkan login');
+			redirect('login');
+		}
+	}
 }

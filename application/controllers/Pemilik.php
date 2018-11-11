@@ -16,6 +16,13 @@ class Pemilik extends MY_Controller
 			$this->flashmsg('Anda harus login terlebih dahulu', 'danger');
 			redirect('login');
 		}
+
+		if ($this->data['id_role'] != 1)
+		{
+			$this->session->sess_destroy();
+			$this->flashmsg('Anda harus login sebagai pemilik kost untuk mengakses halaman tersebut', 'danger');
+			redirect('login');
+		}
 	}
 
 	public function documentation()
@@ -98,7 +105,8 @@ class Pemilik extends MY_Controller
 				{
 					if (isset($_POST[$k]) && !empty($_POST[$k]))
 					{
-						$fasilitas[$k] = $this->POST($k);
+						$kk = $this->POST($k);
+						$fasilitas[$k] = $kk == 'dll' ? $this->POST('free_text_' . $k) : $kk;
 						$i++;
 					}
 				}

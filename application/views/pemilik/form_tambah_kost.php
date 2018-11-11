@@ -54,17 +54,6 @@
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="col-md-3 control-label">Lokasi</label>
-								<div class="col-md-4">
-									<div class="input-group">
-										<input type="number" name="lokasi" class="form-control input-circle-left">
-										<span class="input-group-addon input-circle-right">
-											M
-										</span>
-									</div>
-								</div>
-							</div>
-							<div class="form-group">
 								<label class="col-md-3 control-label">Fasilitas</label>
 								<div class="col-md-5">
 									<select class="form-control input-circle" id="jenis_fasilitas">
@@ -104,6 +93,17 @@
 										<input type="number" step="any" name="longitude" required class="form-control input-circle-right"/>
 									</div>
 									
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-md-3 control-label">Jarak ke Unsri Bukit</label>
+								<div class="col-md-4">
+									<div class="input-group">
+										<input type="number" name="lokasi" id="jarak" readonly class="form-control input-circle-left">
+										<span class="input-group-addon input-circle-right">
+											M
+										</span>
+									</div>
 								</div>
 							</div>
 							<div class="form-group">
@@ -237,6 +237,22 @@
             }));
         }
 
+        function setJarak(latLng) {
+        	let currentLocation = latLng;
+			let unsriLocation = new google.maps.LatLng(-2.984833, 104.732662);
+	        
+	        let request = {
+	        	origin: currentLocation,
+	        	destination: unsriLocation,
+	        	travelMode: google.maps.TravelMode.DRIVING
+	        };
+
+	        let directionService = new google.maps.DirectionsService();
+	        directionService.route(request, function(response, status) {
+	        	$('#jarak').val(response.routes[0].legs[0].distance.value);
+	        });
+        }
+
         map.addListener('click', function(e) {
         	let clickedLat = e.latLng.lat();
         	let clickedLng = e.latLng.lng();
@@ -245,6 +261,8 @@
 
         	$('input[name=latitude]').val(clickedLat);
 			$('input[name=longitude]').val(clickedLng);
+
+			setJarak(new google.maps.LatLng(clickedLat, clickedLng));
         });
 
 
@@ -252,11 +270,13 @@
         	let latLng = new google.maps.LatLng($(this).val(), $('input[name=longitude]').val());
         	setMarker(latLng);
         	map.setCenter(latLng);
+        	setJarak(latLng);
         });
 		$('input[name=longitude]').keyup(function() {
 			let latLng = new google.maps.LatLng($('input[name=latitude]').val(), $(this).val());
         	setMarker(latLng);
         	map.setCenter(latLng);
+        	setJarak(latLng);
         });
 	}
 
@@ -385,7 +405,7 @@
 
 	function generate_option(key, opt) {
 		let html = '<div class="col-md-3">';
-		html += '<select class="form-control input-circle" name="' + key + '">';
+		html += '<select onchange="option_free_text(\'' + key + '\', this);" class="form-control input-circle" name="' + key + '" id="' + key + '">';
 		let name = key.replace(/_/g, x => ' ');
 		html += '<option value="">' + name + '</option>';
 		for (let i = 0; i < opt.length; i++) {
@@ -394,6 +414,15 @@
 		html += '</select>';
 		html += '</div>';
 		return html;
+	}
+
+	function option_free_text(key, obj) {
+		let value = $(obj).val();
+		if (value == 'dll') {
+			$(obj).parent().append('<input type="text" class="form-control input-circle" id="free-text-' + key + '" name="free_text_' + key + '" placeholder="' + key + '"/>');
+		} else {
+			$('#free-text-' + key).remove();
+		}
 	}
 
 	function create_option_form(label, config, key) {

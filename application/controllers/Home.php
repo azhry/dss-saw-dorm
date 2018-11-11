@@ -10,11 +10,9 @@ class Home extends MY_Controller
 
 	public function index()
 	{
-		$this->load->model('kost_m');
 		$this->load->library('Saw/criteria');
 		$this->data['config'] 		= $this->criteria->get_config();
 		$this->data['fasilitas']	= $this->data['config']['fasilitas']['values'];
-		$this->data['kost']			= $this->kost_m->get_by_order('id_kost', 'DESC');
 		$this->data['title']		= 'Home';
 		$this->data['content']		= 'home';
 		$this->template($this->data, $this->module);	
@@ -28,7 +26,7 @@ class Home extends MY_Controller
 	public function daftar_kost()
 	{
 		$this->load->model('kost_m');
-		$this->data['kost']		= $this->kost_m->get_by_order('id_kost', 'DESC');
+		$this->data['kost']		= $this->kost_m->get_by_order('id_kost', 'DESC', ['status' => 'Verified']);
 		$this->data['title']	= 'Daftar Kost';
 		$this->data['content']	= 'daftar_kost';
 		$this->template($this->data, $this->module);
@@ -40,7 +38,7 @@ class Home extends MY_Controller
 		$this->check_allowance(!isset($this->data['id_kost']));
 
 		$this->load->model('kost_m');
-		$this->data['kost']			= $this->kost_m->get_row(['id_kost' => $this->data['id_kost']]);
+		$this->data['kost']			= $this->kost_m->get_kost_row(['kost.id_kost' => $this->data['id_kost']]);
 		$this->check_allowance(!isset($this->data['kost']), ['Data kost tidak ditemukan', 'danger']);
 
 		$this->data['upload_dir'] 			= FCPATH . 'assets/foto/kost-' . $this->data['kost']->id_kost;
@@ -49,25 +47,6 @@ class Home extends MY_Controller
 
 		$this->data['title']				= 'Detail Informasi Kost';
 		$this->data['content']				= 'detail_kost';
-		$this->template($this->data, $this->module);
-	}
-
-	public function detail_ruko()
-	{
-		$this->data['id_ruko']	= $this->uri->segment(3);
-		$this->check_allowance(!isset($this->data['id_ruko']));
-
-		$this->load->model('ruko_m');
-		$this->data['ruko']			= $this->ruko_m->get_row(['id_ruko' => $this->data['id_ruko']]);
-		$this->check_allowance(!isset($this->data['ruko']), ['Data ruko tidak ditemukan', 'danger']);
-
-		$this->data['upload_dir'] 			= FCPATH . 'assets/foto/ruko-' . $this->data['ruko']->id_ruko;
-		$this->data['files']				= array_values(array_diff(scandir($this->data['upload_dir']), ['.', '..']));
-		$this->data['upload_path'] 			= base_url('assets/foto/ruko-' . $this->data['ruko']->id_ruko);
-		$this->data['akses_menuju_lokasi']	= json_decode($this->data['ruko']->akses_menuju_lokasi);
-		$this->data['pusat_keramaian']		= json_decode($this->data['ruko']->pusat_keramaian);
-		$this->data['title']				= 'Detail Informasi Ruko';
-		$this->data['content']				= 'detail_ruko';
 		$this->template($this->data, $this->module);
 	}
 
@@ -201,6 +180,15 @@ class Home extends MY_Controller
 				}
 			}
 
+			if (strlen($cond) > 0)
+			{
+				$cond .= 'AND status = "Verified"';
+			}
+			else
+			{
+				$cond .= 'status = "Verified"';
+			}
+
 			$this->data['kost']	= $this->kost_m->get($cond);
 			$this->saw->set_criteria_type([
 				'harga_sewa'	=> 'cost',
@@ -213,7 +201,7 @@ class Home extends MY_Controller
 				$x->fasilitas = json_decode($x->fasilitas, true);
 				return $x;
 			}, $this->data['kost']);
-			$this->saw->fit($this->data['kost'], ['id_kost', 'id_pengguna', 'kost', 'latitude', 'longitude']);
+			$this->saw->fit($this->data['kost'], ['id_kost', 'id_pengguna', 'kost', 'latitude', 'longitude', 'status']);
 			$this->saw->normalize();
 			$this->saw->result();
 

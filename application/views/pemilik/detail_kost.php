@@ -53,8 +53,8 @@
 										<td><?= $kost->luas_kamar ?> m²</td>
 									</tr>
 									<tr>
-										<td><b>Lokasi</b></td>
-										<td><?= $kost->lokasi ?> M</td>
+										<td><b>Jarak ke Unsri Bukit</b></td>
+										<td id="jarak"><?= $kost->lokasi ?> M</td>
 									</tr>
 									<tr>
 										<td><b>Fasilitas</b></td>
@@ -117,6 +117,18 @@
 			map: map,
 			position: currentLocation
         }));
+
+        let unsriLocation = new google.maps.LatLng(-2.984833, 104.732662);
+        let request = {
+        	origin: currentLocation,
+        	destination: unsriLocation,
+        	travelMode: google.maps.TravelMode.DRIVING
+        };
+
+        let directionService = new google.maps.DirectionsService();
+        directionService.route(request, function(response, status) {
+        	$('#jarak').text(response.routes[0].legs[0].distance.value + ' M');
+        });
 	}
 </script>
 
