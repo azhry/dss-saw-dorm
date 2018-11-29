@@ -59,7 +59,7 @@ class Home extends MY_Controller
 		$this->data['config']	= $this->data['criteria']->get_config();
 		$this->data['ruko']		= json_decode(json_encode($this->ruko_m->get()), true);
 		
-		$matrix = $this->topsis->fit($this->data['ruko'], ['ruko', 'id_ruko', 'id_pengguna', 'latitude', 'longitude']);
+		$matrix = $this->topsis->fit($this->data['ruko'], ['ruko', 'id_ruko', 'id_pengguna', 'latitude', 'longitude', 'jumlah_kamar', 'tipe', 'status']);
 		$weight = $this->topsis->weight();
 		$distance = $this->topsis->solution_distance();
 		$rank = $this->topsis->rank();
@@ -180,6 +180,16 @@ class Home extends MY_Controller
 				}
 			}
 
+			if (!empty($this->POST('tipe')))
+			{
+				if (strlen($cond) > 0)
+				{
+					$cond .= 'AND ';
+				}
+				
+				$cond .= 'tipe = "' . $this->POST('tipe') . '" '; 
+			}
+
 			if (strlen($cond) > 0)
 			{
 				$cond .= 'AND status = "Verified"';
@@ -190,32 +200,36 @@ class Home extends MY_Controller
 			}
 
 			$this->data['kost']	= $this->kost_m->get($cond);
-			$this->saw->set_criteria_type([
-				'harga_sewa'	=> 'cost',
-				'lokasi'		=> 'cost',
-				'luas_kamar'	=> 'benefit',
-				'fasilitas'		=> 'benefit'
-			]);
-			$this->load->model('kost_m');
-			$this->data['kost'] = array_map(function($x) {
-				$x->fasilitas = json_decode($x->fasilitas, true);
-				return $x;
-			}, $this->data['kost']);
-			$this->saw->fit($this->data['kost'], ['id_kost', 'id_pengguna', 'kost', 'latitude', 'longitude', 'status']);
-			$this->saw->normalize();
-			$this->saw->result();
+			$rank = [];
+			if (count($this->data['kost']) > 0)
+			{
+				$this->saw->set_criteria_type([
+					'harga_sewa'	=> 'cost',
+					'lokasi'		=> 'cost',
+					'luas_kamar'	=> 'benefit',
+					'fasilitas'		=> 'benefit'
+				]);
+				$this->load->model('kost_m');
+				$this->data['kost'] = array_map(function($x) {
+					$x->fasilitas = json_decode($x->fasilitas, true);
+					return $x;
+				}, $this->data['kost']);
+				$this->saw->fit($this->data['kost'], ['id_kost', 'id_pengguna', 'kost', 'latitude', 'longitude', 'status', 'jumlah_kamar', 'tipe']);
+				$this->saw->normalize();
+				$this->saw->result();
 
-			$rank = $this->saw->rank();
-			$rank = array_map(function($row) {
-				$row = (array)$row;
-				$path = 'assets/foto/kost-' . $row['id_kost'];
-				$foto = scandir(FCPATH . $path);
-				$foto = array_values(array_diff($foto, ['.', '..']));
-				$row['fasilitas'] = implode(',', array_keys($row['fasilitas']));
-				$row['foto'] = isset($foto[0]) ? base_url($path . '/' . $foto[0]) : 'http://placehold.it/313x313';
-				$row['harga_sewa'] = 'Rp. ' . number_format($row['harga_sewa'], 2, ',', '.');
-				return $row;
-			}, $rank);
+				$rank = $this->saw->rank();
+				$rank = array_map(function($row) {
+					$row = (array)$row;
+					$path = 'assets/foto/kost-' . $row['id_kost'];
+					$foto = scandir(FCPATH . $path);
+					$foto = array_values(array_diff($foto, ['.', '..']));
+					$row['fasilitas'] = implode(',', array_keys($row['fasilitas']));
+					$row['foto'] = isset($foto[0]) ? base_url($path . '/' . $foto[0]) : 'http://placehold.it/313x313';
+					$row['harga_sewa'] = 'Rp. ' . number_format($row['harga_sewa'], 2, ',', '.');
+					return $row;
+				}, $rank);
+			}
 			echo json_encode($rank);
 		}
 	}

@@ -111,4 +111,79 @@ class Admin extends MY_Controller
 		$this->data['content']	= 'konfigurasi_spk';
 		$this->template($this->data, $this->module);
 	}
+
+	public function kriteria()
+	{
+		$this->load->model('kriteria_m');
+
+		$this->data['id_kriteria']	= $this->uri->segment(3);
+		if (isset($this->data['id_kriteria']))
+		{
+			$this->kriteria_m->delete($this->data['id_kriteria']);
+			$this->flashmsg('Kriteria berhasil dihapus');
+			redirect('admin/kriteria');
+		}
+
+		$this->data['kriteria']		= $this->kriteria_m->get();
+		$this->data['title']		= 'Daftar Kriteria';
+		$this->data['content']		= 'kriteria';
+		$this->template($this->data, $this->module);
+	}
+
+	public function tambah_kriteria()
+	{
+		if ($this->POST('submit'))
+		{
+			var_dump($_POST);
+			exit;
+			$this->load->model('kriteria_m');
+			$type 		= $this->POST('type');
+			$details 	= [];
+			if ($type == 'range')
+			{
+				$range_label 	= $this->POST('range_label');
+				$range_max 		= $this->POST('range_max');
+				$range_min		= $this->POST('range_min');
+				$range_value	= $this->POST('range_value');
+
+				for ($i = 0; $i < count($range_label); $i++)
+				{
+					$details []= [
+						'label'	=> $range_label[$i],
+						'max'	=> $range_max[$i],
+						'min'	=> $range_min[$i],
+						'value'	=> $range_value[$i]
+					];
+				} 
+			} 
+			elseif ($type == 'option')
+			{
+				$option_label 	= $this->POST('option_label');
+				$option_value	= $this->POST('option_value');
+
+				for ($i = 0; $i < count($option_label); $i++)
+				{
+					$details []= [
+						'label'	=> $option_label[$i],
+						'value'	=> $option_value[$i]
+					];
+				} 
+			}
+
+			$this->kriteria_m->insert([
+				'key'		=> $this->POST('key'),
+				'type'		=> $type,
+				'weight'	=> $this->POST('weight'),
+				'label'		=> $this->POST('label'),
+				'details'	=> json_encode($details)
+			]);
+
+			$this->flashmsg('Data kriteria berhasil disimpan');
+			redirect('admin/tambah-kriteria');
+		}
+
+		$this->data['title']	= 'Form Penambahan Kriteria Baru';
+		$this->data['content']	= 'form_tambah_kriteria';
+		$this->template($this->data, $this->module);
+	}
 }

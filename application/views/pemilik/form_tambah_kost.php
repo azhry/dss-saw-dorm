@@ -43,6 +43,17 @@
 								</div>
 							</div>
 							<div class="form-group">
+								<label class="col-md-3 control-label">Tipe</label>
+								<div class="col-md-4">
+									<div class="radio-list">
+										<label>
+										<input type="radio" name="tipe" value="Laki-laki"> Laki-laki</label>
+										<label>
+										<input type="radio" name="tipe" value="Perempuan"> Perempuan</label>
+									</div>
+								</div>
+							</div>
+							<div class="form-group">
 								<label class="col-md-3 control-label">Luas Kamar</label>
 								<div class="col-md-4">
 									<div class="input-group">
@@ -51,6 +62,12 @@
 											m²
 										</span>
 									</div>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-md-3 control-label">Jumlah Kamar</label>
+								<div class="col-md-4">
+									<input type="number" name="jumlah_kamar" class="form-control input-circle-right"/>
 								</div>
 							</div>
 							<div class="form-group">

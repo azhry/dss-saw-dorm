@@ -31,6 +31,16 @@
 								</div>
 							</div>
 							<div class="form-group">
+								<label class="col-md-3 control-label">Tipe</label>
+								<div class="col-md-6">
+									<select class="form-control input-circle" id="tipe" name="tipe">
+										<option value="">-- Pilih Tipe --</option>
+										<option value="Laki-laki">Laki-laki</option>
+										<option value="Perempuan">Perempuan</option>
+									</select>
+								</div>
+							</div>
+							<div class="form-group">
 								<label class="col-md-3 control-label">Luas Kamar</label>
 								<div class="col-md-6">
 									<select class="form-control input-circle" id="luas_kamar" name="luas_kamar">
@@ -128,7 +138,8 @@
 				cari: true,
 				harga_sewa: $('#harga_sewa').val(),
 				luas_kamar: $('#luas_kamar').val(),
-				lokasi: $('#lokasi').val()
+				lokasi: $('#lokasi').val(),
+				tipe: $('#tipe').val()
 			};
 
 			for (let i = 0; i < fasilitas.length; i++) {

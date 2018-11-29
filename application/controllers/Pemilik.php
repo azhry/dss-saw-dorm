@@ -94,7 +94,9 @@ class Pemilik extends MY_Controller
 				'fasilitas'		=> [],
 				'lokasi'		=> $this->POST('lokasi'),
 				'latitude'		=> $this->POST('latitude'),
-				'longitude'		=> $this->POST('longitude')
+				'longitude'		=> $this->POST('longitude'),
+				'tipe'			=> $this->POST('tipe'),
+				'jumlah_kamar'	=> $this->POST('jumlah_kamar')
 			];
 			
 			foreach ($this->data['fasilitas'] as $key => $value)
