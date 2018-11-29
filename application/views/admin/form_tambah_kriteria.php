@@ -70,7 +70,6 @@
 </div>
 
 <script type="text/javascript">
-	var num_opt_arr = [];
 	var num_sub = 0;
 
 	$(document).ready(function() {
@@ -124,42 +123,8 @@
 		'</div>');
 	}
 
-	// cth: merk_tempat_tidur, ukuran_tempat_tidur
-	function add_subcriteria_values(obj) {
-		let sub = $(obj).parent().parent().children().eq(3).children()[1].value;
-		$('#sub-container-subcriteria-' + sub).append('<div class="form-group">' +
-			'<label class="control-label col-md-3 col-sm-3 col-xs-12" for="type"></label>' +
-			'<div class="col-md-2 col-sm-2 col-xs-6">' +
-				'<input type="text" name="' + sub + '-option_label[]" required="required" class="form-control col-md-7 col-xs-12" placeholder="Label">' +
-			'</div>' +
-			'<div class="col-md-2 col-sm-2 col-xs-6">' +
-				'<input type="text" name="' + sub + '-option_key[]" id="' + sub + '-option_key" required="required" class="form-control col-md-7 col-xs-12" placeholder="Key">' +
-				'<input type="hidden" value="' + sub + '" id="idx-idx-' + sub + '"/>' +
-			'</div>' +
-			'<div class="col-md-2 col-sm-2 col-xs-6">' +
-				'<button onclick="add_subcriteria_values_values(this);" type="button" class="btn btn-success btn-xs"><i class="fa fa-plus"></i> Add</button>' + 
-				'<button onclick="$(this).parent().parent().remove();" type="button" class="btn btn-danger btn-xs"><i class="fa fa-trash"></i> Delete</button></div>' +
-		'</div><div id="sub-value-container-' + sub + '"></div>');
-	}
-
-	// cth: Olympic, Napolly
-	function add_subcriteria_values_values(obj) {
-		let idx = $(obj).parent().parent().children().eq(2).children()[1].value;
-		$('#sub-value-container-' + idx).append('<div class="form-group">' +
-			'<label class="control-label col-md-4 col-sm-4 col-xs-12" for="type"></label>' +
-			'<div class="col-md-2 col-sm-2 col-xs-6">' +
-				'<input type="text" name="' + idx + '-sub_label[]" required="required" class="form-control col-md-7 col-xs-12" placeholder="Label">' +
-			'</div>' +
-			'<div class="col-md-2 col-sm-2 col-xs-6">' +
-				'<input type="number" name="' + idx + '-sub_value[]" required="required" min="0" step="any" class="form-control col-md-7 col-xs-12" placeholder="Value">' +
-			'</div>' +
-			'<div class="col-md-1 col-sm-1 col-xs-6"><button onclick="$(this).parent().parent().remove();" type="button" class="btn btn-danger btn-xs"><i class="fa fa-trash"></i> Delete</button></div>' +
-		'</div>');
-	}
-
 	// 3x sub
 	function add_subcriteria() {
-		num_opt_arr.push(0);
 		$('#type-container').append('<div><div class="form-group">' +
 			'<label class="control-label col-md-1 col-sm-1 col-xs-12" for="type"></label>' +
 			'<div class="col-md-2 col-sm-2 col-xs-6">' +
@@ -171,6 +136,7 @@
 			'<div class="col-md-2 col-sm-2 col-xs-6">' +
 				'<input type="number" name="subcriteria_weight[]" required="required" min="0" step="any" class="form-control col-md-7 col-xs-12" placeholder="Weight">' +
 				'<input type="hidden" value="' + num_sub + '" id="idx-' + num_sub + '"/>' +
+				'<input type="hidden" value="' + num_sub + '" id="val-' + num_sub + '"/>' +
 			'</div>' +
 			'<div class="col-md-3 col-sm-3 col-xs-6">' +
 				'<button onclick="add_subcriteria_values(this);" type="button" class="btn btn-success btn-sm"><i class="fa fa-plus"></i> Add</button>' + 
@@ -178,5 +144,40 @@
 			'</div>' +
 		'</div><div id="sub-container-subcriteria-' + num_sub + '"></div></div>'); // tambah subsubcriteria
 		num_sub++;
+	}
+
+	// cth: merk_tempat_tidur, ukuran_tempat_tidur
+	function add_subcriteria_values(obj) {
+		let idx = $(obj).parent().parent().children().eq(3).children()[1].value;
+		let sub = $('#val-' + idx).parent().parent().children().eq(3).children()[2].value;
+		$('#val-' + idx).parent().parent().children().eq(3).children().eq(2).val(Number(sub) + 1);
+		$('#sub-container-subcriteria-' + idx).append('<div class="form-group">' +
+			'<label class="control-label col-md-3 col-sm-3 col-xs-12" for="type"></label>' +
+			'<div class="col-md-2 col-sm-2 col-xs-6">' +
+				'<input type="text" name="' + idx + '-option_label[]" required="required" class="form-control col-md-7 col-xs-12" placeholder="Label">' +
+			'</div>' +
+			'<div class="col-md-2 col-sm-2 col-xs-6">' +
+				'<input type="text" name="' + idx + '-option_key[]" id="' + idx + '-option_key" required="required" class="form-control col-md-7 col-xs-12" placeholder="Key">' +
+				'<input type="hidden" value="' + sub + '" id="idx-idx-' + sub + '"/>' +
+			'</div>' +
+			'<div class="col-md-2 col-sm-2 col-xs-6">' +
+				'<button onclick="add_subcriteria_values_values(this, ' + idx + ');" type="button" class="btn btn-success btn-xs"><i class="fa fa-plus"></i> Add</button>' + 
+				'<button onclick="$(this).parent().parent().remove();" type="button" class="btn btn-danger btn-xs"><i class="fa fa-trash"></i> Delete</button></div>' +
+		'</div><div id="sub-value-container-' + idx + '-' + sub + '"></div>');
+	}
+
+	// cth: Olympic, Napolly
+	function add_subcriteria_values_values(obj, idx) {
+		let sub = $(obj).parent().parent().children().eq(2).children()[1].value;
+		$('#sub-value-container-' + idx + '-' + sub).append('<div class="form-group">' +
+			'<label class="control-label col-md-4 col-sm-4 col-xs-12" for="type"></label>' +
+			'<div class="col-md-2 col-sm-2 col-xs-6">' +
+				'<input type="text" name="' + sub + '-sub_label[]" required="required" class="form-control col-md-7 col-xs-12" placeholder="Label">' +
+			'</div>' +
+			'<div class="col-md-2 col-sm-2 col-xs-6">' +
+				'<input type="number" name="' + sub + '-sub_value[]" required="required" min="0" step="any" class="form-control col-md-7 col-xs-12" placeholder="Value">' +
+			'</div>' +
+			'<div class="col-md-1 col-sm-1 col-xs-6"><button onclick="$(this).parent().parent().remove();" type="button" class="btn btn-danger btn-xs"><i class="fa fa-trash"></i> Delete</button></div>' +
+		'</div>');
 	}
 </script>
