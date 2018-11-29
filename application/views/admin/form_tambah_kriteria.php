@@ -172,10 +172,10 @@
 		$('#sub-value-container-' + idx + '-' + sub).append('<div class="form-group">' +
 			'<label class="control-label col-md-4 col-sm-4 col-xs-12" for="type"></label>' +
 			'<div class="col-md-2 col-sm-2 col-xs-6">' +
-				'<input type="text" name="' + sub + '-sub_label[]" required="required" class="form-control col-md-7 col-xs-12" placeholder="Label">' +
+				'<input type="text" name="' + idx + '-' + sub + '-sub_label[]" required="required" class="form-control col-md-7 col-xs-12" placeholder="Label">' +
 			'</div>' +
 			'<div class="col-md-2 col-sm-2 col-xs-6">' +
-				'<input type="number" name="' + sub + '-sub_value[]" required="required" min="0" step="any" class="form-control col-md-7 col-xs-12" placeholder="Value">' +
+				'<input type="number" name="' + idx + '-' + sub + '-sub_value[]" required="required" min="0" step="any" class="form-control col-md-7 col-xs-12" placeholder="Value">' +
 			'</div>' +
 			'<div class="col-md-1 col-sm-1 col-xs-6"><button onclick="$(this).parent().parent().remove();" type="button" class="btn btn-danger btn-xs"><i class="fa fa-trash"></i> Delete</button></div>' +
 		'</div>');

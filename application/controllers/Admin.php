@@ -134,8 +134,9 @@ class Admin extends MY_Controller
 	{
 		if ($this->POST('submit'))
 		{
-			var_dump($_POST);
-			exit;
+			ini_set('xdebug.var_display_max_depth', '10');
+			ini_set('xdebug.var_display_max_children', '256');
+			ini_set('xdebug.var_display_max_data', '1024');
 			$this->load->model('kriteria_m');
 			$type 		= $this->POST('type');
 			$details 	= [];
@@ -156,7 +157,7 @@ class Admin extends MY_Controller
 					];
 				} 
 			} 
-			elseif ($type == 'option')
+			else if ($type == 'option')
 			{
 				$option_label 	= $this->POST('option_label');
 				$option_value	= $this->POST('option_value');
@@ -168,6 +169,45 @@ class Admin extends MY_Controller
 						'value'	=> $option_value[$i]
 					];
 				} 
+			}
+			else if ($type == 'criteria')
+			{
+				$subcriteria_label 	= $this->POST('subcriteria_label');
+				$subcriteria_key	= $this->POST('subcriteria_key');
+				$subcriteria_weight	= $this->POST('subcriteria_weight');
+				$sub_num			= count($subcriteria_label);
+
+				for ($i = 0; $i < $sub_num; $i++)
+				{
+					$option_label	= $this->POST($i . '-option_label');
+					$option_key		= $this->POST($i . '-option_key');
+					$opt_num 		= count($option_label);
+					$values 		= [];
+					for ($j = 0; $j < $opt_num; $j++)
+					{
+						$sub_label 	= $this->POST($i . '-' . ($j + $i) . '-sub_label');
+						$sub_value 	= $this->POST($i . '-' . ($j + $i) . '-sub_value');
+						$s_num 		= count($sub_label);
+						$sub_values = [];
+						for ($k = 0; $k < $s_num; $k++)
+						{
+							$sub_values[$sub_label[$k]] = $sub_value[$k];
+						}
+
+						$values[$option_key[$j]] = [
+							'label'		=> $option_label[$j],
+							'key'		=> $option_key[$j],
+							'values'	=> $sub_values
+						];
+					}
+
+					$details[$subcriteria_key[$i]] = [
+						'label'		=> $subcriteria_label[$i],
+						'key'		=> $subcriteria_key[$i],
+						'weight'	=> $subcriteria_weight[$i],
+						'values'	=> $values
+					];
+				}
 			}
 
 			$this->kriteria_m->insert([
