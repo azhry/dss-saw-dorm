@@ -26,6 +26,16 @@ class Saw
 		}
 	}
 
+	public function set_config($config)
+	{
+		$this->criteria = new Criteria();
+		$this->criteria->set_config($config);
+		foreach ($this->criteria->config as $key => $value)
+		{
+			$this->weights[$key] = $value['weight'];
+		}
+	}
+
 	public function fit($data, $exclude_key = [])
 	{
 		$this->data = $data;

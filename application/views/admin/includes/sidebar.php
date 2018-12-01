@@ -24,9 +24,9 @@
                     </a>
                 </li>
                 <li>
-                    <a href="<?= base_url('admin/konfigurasi-spk') ?>">
+                    <a href="<?= base_url('admin/kriteria') ?>">
                         <i class="icon-list"></i>
-                        <span class="title">Konfigurasi SPK</span>
+                        <span class="title">Daftar Kriteria</span>
                     </a>
                 </li>
             </ul>

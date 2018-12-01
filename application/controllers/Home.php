@@ -75,9 +75,56 @@ class Home extends MY_Controller
 		if ($this->POST('cari'))
 		{
 			$this->load->library('Saw/criteria');
+			$this->load->library('Saw/saw');
+
+			$this->load->model('kriteria_m');
+			$kriteria = $this->kriteria_m->get();
+			$config = [];
+			foreach ($kriteria as $row)
+			{
+				$details = json_decode($row->details, true);
+
+				if ($row->type == 'range')
+				{
+					$max = PHP_INT_MIN;
+					$min = PHP_INT_MAX;
+					$max_idx = -1;
+					$min_idx = -1;
+					for ($i = 0; $i < count($details); $i++)
+					{
+						if ($details[$i]['max'] > $max)
+						{
+							$max = $details[$i]['max'];
+							$max_idx = $i;
+						}
+
+						if ($details[$i]['min'] > $min)
+						{
+							$min = $details[$i]['min'];
+							$min_idx = $i;
+						}
+					}
+					$details[$max_idx]['max'] = null;
+					$details[$min_idx]['min'] = null;
+				}
+				else if ($row->type == 'criteria')
+				{
+					$details = json_decode($row->details, true);
+					$this->data['fasilitas']	= $details;
+				}
+
+				$config[$row->key] = [
+					'key'		=> $row->key,
+					'weight'	=> $row->weight,
+					'label'		=> $row->label,
+					'type'		=> $row->type,
+					'values'	=> $details
+				];
+			}
+
+			$this->saw->set_config($config);
 			$this->data['config'] 		= $this->criteria->get_config();
 			$this->data['fasilitas']	= $this->data['config']['fasilitas']['values'];
-			$this->load->library('Saw/saw');
 
 			$this->load->model('kost_m');
 			$cond = '';
