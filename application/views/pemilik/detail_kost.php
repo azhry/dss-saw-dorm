@@ -49,8 +49,16 @@
 										<td><?= 'Rp. ' . number_format($kost->harga_sewa, 2, ',', '.') ?></td>
 									</tr>
 									<tr>
+										<td><b>Tipe</b></td>
+										<td><?= $kost->tipe ?></td>
+									</tr>
+									<tr>
 										<td><b>Luas Kamar</b></td>
 										<td><?= $kost->luas_kamar ?> m²</td>
+									</tr>
+									<tr>
+										<td><b>Jumlah Kamar</b></td>
+										<td><?= $kost->jumlah_kamar ?></td>
 									</tr>
 									<tr>
 										<td><b>Jarak ke Unsri Bukit</b></td>
@@ -74,8 +82,22 @@
 											</ul>
 										</td>
 									</tr>
+									<?php  
+										$username = $this->session->userdata('username');
+										if (isset($username)):
+									?>
+									<tr>
+										<td><b>Pemilik</b></td>
+										<td><?= $kost->nama ?></td>
+									</tr>
+									<tr>
+										<td><b>Kontak</b></td>
+										<td><?= $kost->kontak ?></td>
+									</tr>
+									<?php endif; ?>
 								</tbody>
-							</table>	
+							</table>
+							<small><i>Note: Fasilitas dari sistem kost disini sudah termasuk harga kost. Jika harga kost dengan fasilitas yang Anda mau tidak ada bukan berarti di kost tersebut tidak ada. Silahkan hubungi kost yang mendekati kost yang direkomendasikan. Terima kasih</i></small>
 						</div>
 					</div>
 				</div>

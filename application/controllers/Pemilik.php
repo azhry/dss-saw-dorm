@@ -62,7 +62,7 @@ class Pemilik extends MY_Controller
 		$this->check_allowance(!isset($this->data['id_kost']));
 
 		$this->load->model('kost_m');
-		$this->data['kost']			= $this->kost_m->get_row(['id_kost' => $this->data['id_kost']]);
+		$this->data['kost']			= $this->kost_m->get_kost_row(['id_kost' => $this->data['id_kost']]);
 		$this->check_allowance(!isset($this->data['kost']), ['Data kost tidak ditemukan', 'danger']);
 
 		$this->data['upload_dir'] 			= FCPATH . 'assets/foto/kost-' . $this->data['kost']->id_kost;
