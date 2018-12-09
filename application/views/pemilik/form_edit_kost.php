@@ -22,13 +22,13 @@
 				</div>
 				<div class="portlet-body form">
 					<!-- BEGIN FORM-->
-					<?= form_open_multipart('pemilik/tambah-kost', ['class' => 'form-horizontal']) ?>
+					<?= form_open_multipart('pemilik/edit-kost/' . $id_kost, ['class' => 'form-horizontal']) ?>
 						<div class="form-body">
 							<?= $this->session->flashdata('msg') ?>
 							<div class="form-group">
 								<label class="col-md-3 control-label">Kost</label>
 								<div class="col-md-4">
-									<textarea name="kost" class="form-control"></textarea>
+									<textarea name="kost" value="<?= $kost->kost ?>" class="form-control"><?= $kost->kost ?></textarea>
 								</div>
 							</div>
 							<div class="form-group">
@@ -38,7 +38,7 @@
 										<span class="input-group-addon input-circle-left">
 											Rp.
 										</span>
-										<input type="number" name="harga_sewa" class="form-control input-circle-right"/>
+										<input type="number" value="<?= $kost->harga_sewa ?>" name="harga_sewa" class="form-control input-circle-right"/>
 									</div>
 								</div>
 							</div>
@@ -47,9 +47,9 @@
 								<div class="col-md-4">
 									<div class="radio-list">
 										<label>
-										<input type="radio" name="tipe" value="Laki-laki"> Laki-laki</label>
+										<input type="radio" <?= $kost->tipe == 'Laki-laki' ? 'checked' : '' ?> name="tipe" value="Laki-laki"> Laki-laki</label>
 										<label>
-										<input type="radio" name="tipe" value="Perempuan"> Perempuan</label>
+										<input type="radio" <?= $kost->tipe == 'Perempuan' ? 'checked' : '' ?> name="tipe" value="Perempuan"> Perempuan</label>
 									</div>
 								</div>
 							</div>
@@ -57,7 +57,7 @@
 								<label class="col-md-3 control-label">Luas Kamar</label>
 								<div class="col-md-4">
 									<div class="input-group">
-										<input type="number" name="luas_kamar" class="form-control input-circle-left">
+										<input type="number" value="<?= $kost->luas_kamar ?>" name="luas_kamar" class="form-control input-circle-left">
 										<span class="input-group-addon input-circle-right">
 											m²
 										</span>
@@ -67,7 +67,7 @@
 							<div class="form-group">
 								<label class="col-md-3 control-label">Jumlah Kamar</label>
 								<div class="col-md-4">
-									<input type="number" name="jumlah_kamar" class="form-control input-circle-right"/>
+									<input type="number" value="<?= $kost->jumlah_kamar ?>" name="jumlah_kamar" class="form-control input-circle-right"/>
 								</div>
 							</div>
 							<div class="form-group">
@@ -101,13 +101,13 @@
 										<span class="input-group-addon input-circle-left">
 											x
 										</span>
-										<input type="number" step="any" name="latitude" required class="form-control input-circle-right"/>
+										<input type="number" step="any" value="<?= $kost->latitude ?>" name="latitude" required class="form-control input-circle-right"/>
 									</div>
 									<div class="input-group">
 										<span class="input-group-addon input-circle-left">
 											y
 										</span>
-										<input type="number" step="any" name="longitude" required class="form-control input-circle-right"/>
+										<input type="number" step="any" value="<?= $kost->longitude ?>" name="longitude" required class="form-control input-circle-right"/>
 									</div>
 									
 								</div>
@@ -150,6 +150,25 @@
 											<!-- The table listing the files available for upload/download -->
 											<table role="presentation" class="table table-striped clearfix">
 												<tbody id="files">
+													<?php foreach ($files as $file): ?>
+													<tr>
+									        			<td>
+															<span class="image"><img style="width: 50px; height: 50px;" src="<?= $upload_path . '/' . $file ?>" alt="Uploaded Image" /></span>
+														</td>
+														<td>
+															<span><?= $file ?></span>
+														</td>
+														<td>
+															<span class="message">
+																<?= round((filesize($upload_dir . '/' . $file) / 1024), 2) . ' KB' ?>
+															</span>
+														</td>
+														<td>
+															<button type="button" class="btn red" onclick="hapus_foto(this);">Hapus</button>
+														</td>
+														<input type="hidden" value="<?= $file ?>" name="uploaded_files[]"/>
+													</tr>
+													<?php endforeach; ?>
 												</tbody>
 											</table>
 										</div>
@@ -175,17 +194,15 @@
 
 <script type="text/javascript">
 	function initMap() {
-		// koordinat palembang
-		let lat = -2.990934;
-		let lng = 104.7754;
+		let coord = new google.maps.LatLng(<?= $kost->latitude ?>, <?= $kost->longitude ?>);
 
 		let map = new google.maps.Map(document.getElementById('map'), {
-			center: {lat: lat, lng: lng},
+			center: coord,
 			zoom: 12
 		});
 
-		$('input[name=latitude]').val(lat);
-		$('input[name=longitude]').val(lng);
+		$('input[name=latitude]').val(<?= $kost->latitude ?>);
+		$('input[name=longitude]').val(<?= $kost->longitude ?>);
 
 		let input = document.getElementById('pac-input');
         let searchBox = new google.maps.places.SearchBox(input);
@@ -197,6 +214,9 @@
         });
 
         let markers = [];
+        setMarker(coord);
+        setJarak(coord);
+
         // Listen for the event fired when the user selects a prediction and retrieve
         // more details for that place.
         searchBox.addListener('places_changed', function() {
@@ -226,8 +246,6 @@
               title: place.name,
               position: place.geometry.location
             }));
-
-            setJarak(place.geometry.location);
 
             if (place.geometry.viewport) {
               // Only geocodes have viewport.
@@ -265,8 +283,6 @@
 	        	destination: unsriLocation,
 	        	travelMode: google.maps.TravelMode.DRIVING
 	        };
-
-	        console.log(google.maps.TravelMode);
 
 	        let directionService = new google.maps.DirectionsService();
 	        directionService.route(request, function(response, status) {
@@ -393,8 +409,8 @@
 	}
 
 	var fasilitas = [];
-	function tambah_fasilitas() {
-		let jenis_fasilitas = $('#jenis_fasilitas').val();
+	function tambah_fasilitas(jenis) {
+		let jenis_fasilitas = jenis ||  $('#jenis_fasilitas').val();
 		<?php foreach ($fasilitas as $key => $value): ?>
 			if (jenis_fasilitas === '<?= $key ?>') {
 				let config = {};
@@ -465,4 +481,17 @@
 		$(obj).parent().remove();
 		fasilitas.splice(fasilitas.indexOf(key), 1);
 	}
+
+	<?php foreach ($fasilitas_kost as $key => $value): ?>
+		tambah_fasilitas('<?= $key ?>');
+		<?php foreach ($value as $k => $v): ?>
+			<?php if (in_array($v, array_keys($fasilitas[$key]['values'][$k]['values']))): ?>
+				$('#<?= $k ?>').val('<?= $v ?>');
+			<?php else: ?>
+				$('#<?= $k ?>').val('dll');
+				$('#<?= $k ?>').parent().append('<input type="text" class="form-control input-circle" id="free-text-<?= $k ?>" name="free_text_<?= $k ?>" placeholder="<?= $k ?>"/>');
+				$('#free-text-<?= $k ?>').val('<?= $v ?>');
+			<?php endif; ?>
+		<?php endforeach; ?>
+	<?php endforeach; ?>
 </script>

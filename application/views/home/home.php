@@ -197,17 +197,24 @@
 					let html = '';
 					for (let i = 0; i < json.length; i++) {
 						html += '<div class="search-classic">' +
-									'<h4>' +
-										'<a href="<?= base_url('home/detail-kost') ?>/' + json[i].id_kost + '">' +
-											json[i].kost +
-										'</a>' +
-									'</h4>' +
-										'<a href="javascript:;">' +
-											json[i].harga_sewa +
-										'</a>' +
-									'<p>' +
-										json[i].fasilitas +
-									'</p>' +
+									'<div class="row">' +
+										'<div class="col-md-3">' +
+											'<img src="' + json[i].foto + '" onerror="this.src = \'http://placehold.it/200\'" width="100%"/>' +
+										'</div>' +
+										'<div class="col-md-8">' +
+											'<h4>' +
+												'<a href="<?= base_url('home/detail-kost') ?>/' + json[i].id_kost + '">' +
+													json[i].kost +
+												'</a>' +
+											'</h4>' +
+												'<a href="javascript:;">' +
+													json[i].harga_sewa +
+												'</a>' +
+											'<p>' +
+												json[i].fasilitas +
+											'</p>' +
+										'</div>' +
+									'</div>' +
 								'</div>';
 					}
 					$('#search-result').html(html);

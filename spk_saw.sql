@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: 02 Des 2018 pada 06.33
+-- Generation Time: 09 Des 2018 pada 16.56
 -- Versi Server: 10.1.28-MariaDB
 -- PHP Version: 7.1.11
 
@@ -49,9 +49,10 @@ CREATE TABLE `kost` (
 
 INSERT INTO `kost` (`id_kost`, `id_pengguna`, `kost`, `tipe`, `harga_sewa`, `luas_kamar`, `jumlah_kamar`, `lokasi`, `fasilitas`, `latitude`, `longitude`, `status`) VALUES
 (1, 1, 'Bedeng 12 Lrg Hasanah', 'Perempuan', 11000000, 15, 0, 3289, '{\"tempat_tidur\":{\"merk_tempat_tidur\":\"Tidak ada merk\",\"bahan_tempat_tidur\":\"Springbed\",\"ukuran_tempat_tidur\":\"160 x 120 cm\"},\"lemari\":{\"merk_lemari\":\"Olympic\",\"bahan_lemari\":\"Plastik\",\"ukuran_lemari\":\"50 x 42 x 107 cm\"},\"kipas_angin\":{\"merk_kipas_angin\":\"Cosmos\",\"tipe_kipas_angin\":\"Tempel di Dinding\",\"ukuran_kipas_angin\":\"16 inch\"},\"kamar_mandi_dalam\":{\"fasilitas_kamar_mandi\":\"Shower dan kloset duduk\",\"ukuran_kamar_mandi\":\"100 x 70 cm\"}}', -2.99368, 104.738, 'Verified'),
-(3, 1, 'Kost 21', 'Perempuan', 12400000, 6, 0, 3289, '{\"tempat_tidur\":{\"merk_tempat_tidur\":\"Olympic\",\"bahan_tempat_tidur\":\"Springbed\",\"ukuran_tempat_tidur\":\"120 x 200 cm\"},\"lemari\":{\"merk_lemari\":\"Olympic\",\"bahan_lemari\":\"Plastik\",\"ukuran_lemari\":\"dll\"},\"kamar_mandi_dalam\":{\"fasilitas_kamar_mandi\":\"dll\",\"ukuran_kamar_mandi\":\"100 x 100 cm\"},\"meja_belajar\":{\"merk_meja_belajar\":\"Olympic\",\"bahan_meja_belajar\":\"Particle Board\",\"ukuran_meja_belajar\":\"110 x 45 x 80 cm\"},\"mesin_cuci\":{\"merk_mesin_cuci\":\"Toshiba VH-E95LNEW (2 Tabung)\",\"kapasitas_mesin_cuci\":\"9 kg\"},\"wifi\":{\"merk_wifi\":\"Indihome\"},\"laundry\":{\"laundry\":\"2 baju 1 celana\\/hari\"},\"kulkas\":{\"merk_kulkas\":\"Toshiba Glacio\",\"kapasitas_kulkas\":\"150 liter\"},\"ac\":{\"merk_ac\":\"Panasonic\"}}', -2.99368, 104.738, 'Pending'),
+(3, 1, 'Kost 21', 'Perempuan', 12400000, 6, 0, 3289, '{\"tempat_tidur\":{\"merk_tempat_tidur\":\"Olympic\",\"bahan_tempat_tidur\":\"Springbed\",\"ukuran_tempat_tidur\":\"120 x 200 cm\"},\"lemari\":{\"merk_lemari\":\"Olympic\",\"bahan_lemari\":\"Plastik\",\"ukuran_lemari\":\"dll\"},\"kamar_mandi_dalam\":{\"fasilitas_kamar_mandi\":\"dll\",\"ukuran_kamar_mandi\":\"100 x 100 cm\"},\"meja_belajar\":{\"merk_meja_belajar\":\"Olympic\",\"bahan_meja_belajar\":\"Particle Board\",\"ukuran_meja_belajar\":\"110 x 45 x 80 cm\"},\"mesin_cuci\":{\"merk_mesin_cuci\":\"Toshiba VH-E95LNEW (2 Tabung)\",\"kapasitas_mesin_cuci\":\"9 kg\"},\"wifi\":{\"merk_wifi\":\"Indihome\"},\"laundry\":{\"laundry\":\"2 baju 1 celana \\/ hari\"},\"kulkas\":{\"merk_kulkas\":\"Toshiba Glacio\",\"kapasitas_kulkas\":\"150 liter\"},\"ac\":{\"merk_ac\":\"Panasonic\"}}', -2.99368, 104.738, 'Pending'),
 (5, 1, 'Kost Samoraso', 'Laki-laki', 11000000, 18, 0, 3844, '{\"tempat_tidur\":{\"merk_tempat_tidur\":\"Biloxy\",\"bahan_tempat_tidur\":\"Springbed\",\"ukuran_tempat_tidur\":\"120 x 200 cm\"},\"lemari\":{\"merk_lemari\":\"Olympic\",\"bahan_lemari\":\"Particle Board\",\"ukuran_lemari\":\"80 x 40 x 182 cm\"},\"kipas_angin\":{\"merk_kipas_angin\":\"Maspion\",\"tipe_kipas_angin\":\"Tempel di Dinding\",\"ukuran_kipas_angin\":\"12 inch\"},\"kamar_mandi_dalam\":{\"fasilitas_kamar_mandi\":\"Kloset duduk, ember besar, gayung, shower, PDAM 24 jam\",\"ukuran_kamar_mandi\":\"dll\"},\"listrik\":{\"listrik\":\"Prabayar\",\"watt_listrik\":\"900 watt\"},\"mesin_cuci\":{\"merk_mesin_cuci\":\"Panasonic NA-W60MB1 (2 Tabung)\",\"kapasitas_mesin_cuci\":\"6 kg\"}}', -2.99436, 104.741, 'Pending'),
-(6, 1, 'Siguntang 88', 'Laki-laki', 12000000, 24, 0, 3685, '{\"tempat_tidur\":{\"merk_tempat_tidur\":\"Bola Dunia\",\"bahan_tempat_tidur\":\"Busa\",\"ukuran_tempat_tidur\":\"90 x 200 cm\"},\"lemari\":{\"merk_lemari\":\"Tidak Ada\",\"bahan_lemari\":\"Kayu Jati\",\"ukuran_lemari\":\"100 x 60 x 200 cm\"},\"kamar_mandi_dalam\":{\"fasilitas_kamar_mandi\":\"Shower, kloset duduk, tempat sabun\",\"ukuran_kamar_mandi\":\"200 x 200 cm\"},\"meja_belajar\":{\"merk_meja_belajar\":\"Tidak Ada Merk\",\"bahan_meja_belajar\":\"Kayu Jati\",\"ukuran_meja_belajar\":\"90 x 40 x 73 cm\"},\"kaca_kamar\":{\"merk_kaca_kamar\":\"Bingkai Kayu Jati\",\"ukuran_kaca_kamar\":\"100 x 80 cm\"},\"rak_buku\":{\"bahan_rak_buku\":\"Kayu Jati\",\"ukuran_rak_buku\":\"100 x 40 cm\"}}', -3.00431, 104.729, 'Pending');
+(6, 1, 'Siguntang 88', 'Laki-laki', 12000000, 24, 0, 3685, '{\"tempat_tidur\":{\"merk_tempat_tidur\":\"Bola Dunia\",\"bahan_tempat_tidur\":\"Busa\",\"ukuran_tempat_tidur\":\"90 x 200 cm\"},\"lemari\":{\"merk_lemari\":\"Tidak Ada\",\"bahan_lemari\":\"Kayu Jati\",\"ukuran_lemari\":\"100 x 60 x 200 cm\"},\"kamar_mandi_dalam\":{\"fasilitas_kamar_mandi\":\"Shower, kloset duduk, tempat sabun\",\"ukuran_kamar_mandi\":\"200 x 200 cm\"},\"meja_belajar\":{\"merk_meja_belajar\":\"Tidak Ada Merk\",\"bahan_meja_belajar\":\"Kayu Jati\",\"ukuran_meja_belajar\":\"90 x 40 x 73 cm\"},\"kaca_kamar\":{\"merk_kaca_kamar\":\"Bingkai Kayu Jati\",\"ukuran_kaca_kamar\":\"100 x 80 cm\"},\"rak_buku\":{\"bahan_rak_buku\":\"Kayu Jati\",\"ukuran_rak_buku\":\"100 x 40 cm\"}}', -3.00431, 104.729, 'Pending'),
+(9, 1, 'test', 'Laki-laki', 242423, 23, 43, 336, '{\"listrik\":{\"listrik\":\"Prabayar\",\"watt_listrik\":\"900 watt\"}}', -2.98469, 104.73, 'Verified');
 
 -- --------------------------------------------------------
 
@@ -102,7 +103,8 @@ CREATE TABLE `pengguna` (
 INSERT INTO `pengguna` (`id_pengguna`, `username`, `password`, `nama`, `email`, `kontak`, `id_role`, `alamat`) VALUES
 (1, 'azhry', '985fabf8f96dc1c4c306341031569937', 'Azhary Arliansyah', 'arliansyah_azhary@yahoo.com', '85380109887', 1, 'Komplek Bougenville'),
 (2, 'az', '985fabf8f96dc1c4c306341031569937', 'Azhary Arliansyah', 'azhary.arliansyah@studentpartner.com', '008080808', 2, '-'),
-(3, 'azhary', '985fabf8f96dc1c4c306341031569937', 'Azhary Arliansyah', 'arliansyah_azhary@yahoo.com', '081234265011', 3, 'wre');
+(3, 'azhary', '985fabf8f96dc1c4c306341031569937', 'Azhary Arliansyah', 'arliansyah_azhary@yahoo.com', '081234265011', 3, 'wre'),
+(4, 'nely', 'ddacf31beb6ed2d13657aedcfa1394d1', 'm', 'nelyyupita00@gmail.com', '09', 3, 'n');
 
 -- --------------------------------------------------------
 
@@ -163,7 +165,7 @@ ALTER TABLE `role`
 -- AUTO_INCREMENT for table `kost`
 --
 ALTER TABLE `kost`
-  MODIFY `id_kost` mediumint(9) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id_kost` mediumint(9) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `kriteria`
@@ -175,7 +177,7 @@ ALTER TABLE `kriteria`
 -- AUTO_INCREMENT for table `pengguna`
 --
 ALTER TABLE `pengguna`
-  MODIFY `id_pengguna` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_pengguna` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `role`

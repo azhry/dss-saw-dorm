@@ -76,9 +76,54 @@ class Pemilik extends MY_Controller
 
 	public function tambah_kost()
 	{
-		$this->load->library('Saw/criteria');
-		$this->data['config'] 		= $this->criteria->get_config();
-		$this->data['fasilitas']	= $this->data['config']['fasilitas']['values'];
+		$this->load->library('Saw/saw');
+		$this->load->model('kriteria_m');
+		$kriteria = $this->kriteria_m->get();
+		$config = [];
+		foreach ($kriteria as $row)
+		{
+			$details = json_decode($row->details, true);
+
+			if ($row->type == 'range')
+			{
+				$max = PHP_INT_MIN;
+				$min = PHP_INT_MAX;
+				$max_idx = -1;
+				$min_idx = -1;
+				for ($i = 0; $i < count($details); $i++)
+				{
+					if ($details[$i]['max'] > $max)
+					{
+						$max = $details[$i]['max'];
+						$max_idx = $i;
+					}
+
+					if ($details[$i]['min'] > $min)
+					{
+						$min = $details[$i]['min'];
+						$min_idx = $i;
+					}
+				}
+				$details[$max_idx]['max'] = null;
+				$details[$min_idx]['min'] = null;
+			}
+			else if ($row->type == 'criteria')
+			{
+				$details = json_decode($row->details, true);
+				$this->data['fasilitas']	= $details;
+			}
+
+			$config[$row->key] = [
+				'key'		=> $row->key,
+				'weight'	=> $row->weight,
+				'label'		=> $row->label,
+				'type'		=> $row->type,
+				'values'	=> $details
+			];
+		}
+
+		$this->saw->set_config($config);
+		// $this->data['fasilitas']	= $this->saw->get_config();
 
 		if ($this->POST('submit'))
 		{
@@ -140,37 +185,34 @@ class Pemilik extends MY_Controller
 		$this->template($this->data, $this->module);
 	}
 
-	public function edit_ruko()
+	public function edit_kost()
 	{
-		$this->data['id_ruko']	= $this->uri->segment(3);
-		$this->check_allowance(!isset($this->data['id_ruko']));
+		$this->data['id_kost']	= $this->uri->segment(3);
+		$this->check_allowance(!isset($this->data['id_kost']));
 
-		$this->load->model('ruko_m');
-		$this->data['ruko']			= $this->ruko_m->get_row(['id_ruko' => $this->data['id_ruko']]);
-		$this->check_allowance(!isset($this->data['ruko']), ['Data ruko tidak ditemukan', 'danger']);
+		$this->load->model('kost_m');
+		$this->data['kost']			= $this->kost_m->get_kost_row(['id_kost' => $this->data['id_kost']]);
+		$this->check_allowance(!isset($this->data['kost']), ['Data kost tidak ditemukan', 'danger']);
 
 		if ($this->POST('submit'))
 		{
 			$assets_url = FCPATH . 'assets/';
 			$uploaded_files = $this->POST('new_uploaded_files');
 
-			$this->data['ruko'] = [
-				'ruko'							=> $this->POST('ruko'),
-				'biaya_sewa'					=> $this->POST('biaya_sewa'),
-				'luas_bangunan'					=> $this->POST('luas_bangunan'),
-				'akses_menuju_lokasi'			=> json_encode($this->POST('akses_menuju_lokasi')),
-				'pusat_keramaian'				=> json_encode($this->POST('pusat_keramaian')),
-				'zona_parkir'					=> $this->POST('zona_parkir'),
-				'jumlah_pesaing_serupa'			=> $this->POST('jumlah_pesaing_serupa'),
-				'tingkat_konsumtif_masyarakat'	=> $this->POST('tingkat_konsumtif_masyarakat'),
-				'lingkungan_lokasi_ruko'		=> $this->POST('lingkungan_lokasi_ruko'),
-				'latitude'						=> $this->POST('latitude'),
-				'longitude'						=> $this->POST('longitude')
+			$this->data['kost'] = [
+				'kost'			=> $this->POST('kost'),
+				'harga_sewa'	=> $this->POST('harga_sewa'),
+				'luas_kamar'	=> $this->POST('luas_kamar'),
+				'fasilitas'		=> [],
+				'lokasi'		=> $this->POST('lokasi'),
+				'latitude'		=> $this->POST('latitude'),
+				'longitude'		=> $this->POST('longitude'),
+				'tipe'			=> $this->POST('tipe'),
+				'jumlah_kamar'	=> $this->POST('jumlah_kamar')
 			];
+			$this->kost_m->update($this->data['id_kost'], $this->data['kost']);
 
-			$this->ruko_m->update($this->data['id_ruko'], $this->data['ruko']);
-
-			$uploaded_dir = $assets_url . 'foto/ruko-' . $this->data['id_ruko'];
+			$uploaded_dir = $assets_url . 'foto/kost-' . $this->data['id_kost'];
 			$deleted_photos = $this->POST('deleted_photo');
 			if (isset($deleted_photos))
 			{
@@ -195,17 +237,69 @@ class Pemilik extends MY_Controller
 				$this->remove_directory($assets_url . 'temp_files');
 			}
 
-			$this->flashmsg('Data ruko berhasil disimpan');
-			redirect('pemilik/edit-ruko/' . $this->data['id_ruko']);	
-		  }
+			$this->flashmsg('Data kost berhasil disimpan');
+			redirect('pemilik/edit-kost/' . $this->data['id_kost']);	
+		}
 
-		$this->data['upload_dir'] 			= FCPATH . 'assets/foto/ruko-' . $this->data['ruko']->id_ruko;
+		$this->data['upload_dir'] 			= FCPATH . 'assets/foto/kost-' . $this->data['kost']->id_kost;
 		$this->data['files']				= array_values(array_diff(scandir($this->data['upload_dir']), ['.', '..']));
-		$this->data['upload_path'] 			= base_url('assets/foto/ruko-' . $this->data['ruko']->id_ruko);
-		$this->data['akses_menuju_lokasi']	= json_decode($this->data['ruko']->akses_menuju_lokasi);
-		$this->data['pusat_keramaian']		= json_decode($this->data['ruko']->pusat_keramaian);
-		$this->data['title']				= 'Form Edit Data Ruko';
-		$this->data['content']				= 'form_edit_ruko';
+		$this->data['upload_path'] 			= base_url('assets/foto/kost-' . $this->data['kost']->id_kost);	
+		$this->data['fasilitas_kost']		= json_decode($this->data['kost']->fasilitas, true);
+
+		$this->load->library('Saw/criteria');
+		$this->data['config'] 		= $this->criteria->get_config();
+		$this->data['fasilitas']	= $this->data['config']['fasilitas']['values'];
+
+		$this->load->library('Saw/saw');
+		$this->load->model('kriteria_m');
+		$kriteria = $this->kriteria_m->get();
+		$config = [];
+		foreach ($kriteria as $row)
+		{
+			$details = json_decode($row->details, true);
+
+			if ($row->type == 'range')
+			{
+				$max = PHP_INT_MIN;
+				$min = PHP_INT_MAX;
+				$max_idx = -1;
+				$min_idx = -1;
+				for ($i = 0; $i < count($details); $i++)
+				{
+					if ($details[$i]['max'] > $max)
+					{
+						$max = $details[$i]['max'];
+						$max_idx = $i;
+					}
+
+					if ($details[$i]['min'] > $min)
+					{
+						$min = $details[$i]['min'];
+						$min_idx = $i;
+					}
+				}
+				$details[$max_idx]['max'] = null;
+				$details[$min_idx]['min'] = null;
+			}
+			else if ($row->type == 'criteria')
+			{
+				$details = json_decode($row->details, true);
+				$this->data['fasilitas']	= $details;
+			}
+
+			$config[$row->key] = [
+				'key'		=> $row->key,
+				'weight'	=> $row->weight,
+				'label'		=> $row->label,
+				'type'		=> $row->type,
+				'values'	=> $details
+			];
+		}
+
+		$this->saw->set_config($config);
+
+		$this->data['title']				= 'Edit Informasi Kost';
+		$this->data['content']				= 'form_edit_kost';
 		$this->template($this->data, $this->module);
 	}
 

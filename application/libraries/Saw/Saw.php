@@ -36,6 +36,11 @@ class Saw
 		}
 	}
 
+	public function get_config()
+	{
+		return $this->criteria->config;
+	}
+
 	public function fit($data, $exclude_key = [])
 	{
 		$this->data = $data;

@@ -43,7 +43,10 @@
 									Luas Kamar
 								</th>
 								<th style="text-align: center;">
-									Lokasi
+									Jarak ke Unsri Bukit
+								</th>
+								<th style="text-align: center;">
+									Status
 								</th>
 								<th width="200" style="text-align: center;">
 									Aksi
@@ -65,11 +68,16 @@
 									<td class="center">
 										<?= $row->lokasi ?> M
 									</td>
+									<td class="center">
+										<?= $row->status == 'Verified' ? '<span class="text-center">Terverifikasi</span>' : '<span class="text-danger">Pending</span>' ?>
+									</td>
 									<td>
 										<div class="btn-group btn-group-solid">
 											<!-- <button type="button" class="btn blue btn-sm"><i class="fa fa-edit"></i> Edit</button>
 											<button type="button" class="btn red btn-sm" onclick="hapus_kost('<?= $row->id_kost ?>');"><i class="fa fa-trash"></i> Delete</button> -->
 											<a href="<?= base_url('pemilik/detail-kost/' . $row->id_kost) ?>" class="btn blue btn-sm"><i class="fa fa-eye"></i> Lihat Info Detail</a>
+											<a href="<?= base_url('pemilik/edit-kost/' . $row->id_kost) ?>" class="btn blue btn-sm"><i class="fa fa-edit"></i> Edit</a>
+											<button type="button" class="btn red btn-sm" onclick="hapus_kost('<?= $row->id_kost ?>');"><i class="fa fa-trash"></i> Delete</button>
 										</div>
 									</td>
 								</tr>

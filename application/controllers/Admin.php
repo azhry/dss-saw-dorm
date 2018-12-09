@@ -78,6 +78,7 @@ class Admin extends MY_Controller
 			$kost = $this->kost_m->get_row(['id_kost' => $this->POST('id_kost')]);
 			if (isset($kost))
 			{
+				$this->load->model('pengguna_m');
 				switch ($kost->status)
 				{
 					case 'Verified':
@@ -88,6 +89,15 @@ class Admin extends MY_Controller
 					case 'Pending':
 						$this->kost_m->update($this->POST('id_kost'), ['status' => 'Verified']);
 						$response['data'] = 'Verified';
+						$pengguna = $this->pengguna_m->get_row(['id_pengguna' => $kost->id_pengguna]);
+						if (isset($pengguna))
+						{
+							$this->load->library('CI_PHPMailer/ci_phpmailer');
+							$this->ci_phpmailer->setServer('smtp.gmail.com');
+							$this->ci_phpmailer->setAuth('testdevsmail@gmail.com', '4kuGanteng');
+							$this->ci_phpmailer->setAlias('admin@sistemkost.com', 'Sistem Kost');
+							$this->ci_phpmailer->sendMessage($pengguna->email, 'Status Verifikasi Kost ' . $kost->kost, 'Kost ' . $kost->kost . ' telah berhasil diverifikasi');
+						}
 						break;
 				}
 
