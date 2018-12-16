@@ -199,6 +199,51 @@ class Pemilik extends MY_Controller
 			$assets_url = FCPATH . 'assets/';
 			$uploaded_files = $this->POST('new_uploaded_files');
 
+			$this->load->model('kriteria_m');
+			$kriteria = $this->kriteria_m->get();
+			$config = [];
+			foreach ($kriteria as $row)
+			{
+				$details = json_decode($row->details, true);
+
+				if ($row->type == 'range')
+				{
+					$max = PHP_INT_MIN;
+					$min = PHP_INT_MAX;
+					$max_idx = -1;
+					$min_idx = -1;
+					for ($i = 0; $i < count($details); $i++)
+					{
+						if ($details[$i]['max'] > $max)
+						{
+							$max = $details[$i]['max'];
+							$max_idx = $i;
+						}
+
+						if ($details[$i]['min'] > $min)
+						{
+							$min = $details[$i]['min'];
+							$min_idx = $i;
+						}
+					}
+					$details[$max_idx]['max'] = null;
+					$details[$min_idx]['min'] = null;
+				}
+				else if ($row->type == 'criteria')
+				{
+					$details = json_decode($row->details, true);
+					$this->data['fasilitas']	= $details;
+				}
+
+				$config[$row->key] = [
+					'key'		=> $row->key,
+					'weight'	=> $row->weight,
+					'label'		=> $row->label,
+					'type'		=> $row->type,
+					'values'	=> $details
+				];
+			}
+
 			$this->data['kost'] = [
 				'kost'			=> $this->POST('kost'),
 				'harga_sewa'	=> $this->POST('harga_sewa'),
@@ -210,6 +255,30 @@ class Pemilik extends MY_Controller
 				'tipe'			=> $this->POST('tipe'),
 				'jumlah_kamar'	=> $this->POST('jumlah_kamar')
 			];
+
+
+			foreach ($this->data['fasilitas'] as $key => $value)
+			{
+				$i = 0;
+				$fasilitas = [];
+				foreach ($value['values'] as $k => $v)
+				{
+					if (isset($_POST[$k]) && !empty($_POST[$k]))
+					{
+						$kk = $this->POST($k);
+						$fasilitas[$k] = $kk == 'dll' ? $this->POST('free_text_' . $k) : $kk;
+						$i++;
+					}
+				}
+
+				if ($i > 0)
+				{
+					$this->data['kost']['fasilitas'][$key] = $fasilitas;
+				}
+			}
+
+			$this->data['kost']['fasilitas'] = json_encode($this->data['kost']['fasilitas']);
+
 			$this->kost_m->update($this->data['id_kost'], $this->data['kost']);
 
 			$uploaded_dir = $assets_url . 'foto/kost-' . $this->data['id_kost'];
