@@ -97,7 +97,7 @@
 			<div class="portlet box grey-cascade">
 				<div class="portlet-title">
 					<div class="caption">
-						<i class="fa fa-globe"></i> Lokasi Kost
+						<i class="fa fa-globe"></i> Lokasi Kost - <span id="alamat"></span>
 					</div>
 				</div>
 				<div class="portlet-body">
@@ -142,10 +142,27 @@
         directionService.route(request, function(response, status) {
         	$('#jarak').text(response.routes[0].legs[0].distance.value + ' M');
         });
+
+        geocodeLatLng(currentLocation);
+	}
+
+	function geocodeLatLng(latLng) {
+		let geocoder = new google.maps.Geocoder();
+		geocoder.geocode({ location: latLng }, function(results, status) {
+			if (status === 'OK') {
+				if (results[0]) {
+					$('#alamat').text(results[0].formatted_address);
+				} else {
+					window.alert('No results found');
+				}
+			} else {
+				window.alert('Geocoder failed due to: ' + status);
+			}
+		});
 	}
 </script>
 
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDV1CNPBI4qy_Wr5jDjKe0Pb40u9Tn27UA&libraries=places&callback=initMap" async defer></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAogXD-AHrsmnWinZIyhRORJ84bgLwDPpg&libraries=places&callback=initMap&sensor=false&language=id" async defer></script>
 
 <script type="text/javascript" src="<?= base_url('assets/build/js/lightslider.min.js') ?>"></script>
 <script type="text/javascript">
