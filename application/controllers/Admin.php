@@ -28,7 +28,9 @@ class Admin extends MY_Controller
 	public function index()
 	{
 		$this->load->model('kost_m');
+		$this->load->model('kriteria_m');
 		$this->data['kost']		= $this->kost_m->get();
+		$this->data['kriteria']	= $this->kriteria_m->get();
 		$this->data['title']	= 'Dashboard';
 		$this->data['content']	= 'dashboard';
 		$this->template($this->data, $this->module);
@@ -144,9 +146,6 @@ class Admin extends MY_Controller
 	{
 		if ($this->POST('submit'))
 		{
-			ini_set('xdebug.var_display_max_depth', '10');
-			ini_set('xdebug.var_display_max_children', '256');
-			ini_set('xdebug.var_display_max_data', '1024');
 			$this->load->model('kriteria_m');
 			$type 		= $this->POST('type');
 			$details 	= [];
@@ -234,6 +233,107 @@ class Admin extends MY_Controller
 
 		$this->data['title']	= 'Form Penambahan Kriteria Baru';
 		$this->data['content']	= 'form_tambah_kriteria';
+		$this->template($this->data, $this->module);
+	}
+
+	public function edit_kriteria()
+	{
+		$this->data['id_kriteria']	= $this->uri->segment(3);
+		$this->check_allowance(!isset($this->data['id_kriteria']));
+
+		$this->load->model('kriteria_m');
+		$this->data['kriteria']			= $this->kriteria_m->get_row(['id_kriteria' => $this->data['id_kriteria']]);
+		$this->check_allowance(!isset($this->data['kriteria']), ['Data kriteria tidak ditemukan', 'danger']);
+
+		if ($this->POST('edit'))
+		{
+			$this->load->model('kriteria_m');
+			$type 		= $this->POST('type');
+			$details 	= [];
+			if ($type == 'range')
+			{
+				$range_label 	= $this->POST('range_label');
+				$range_max 		= $this->POST('range_max');
+				$range_min		= $this->POST('range_min');
+				$range_value	= $this->POST('range_value');
+
+				for ($i = 0; $i < count($range_label); $i++)
+				{
+					$details []= [
+						'label'	=> $range_label[$i],
+						'max'	=> $range_max[$i],
+						'min'	=> $range_min[$i],
+						'value'	=> $range_value[$i]
+					];
+				} 
+			} 
+			else if ($type == 'option')
+			{
+				$option_label 	= $this->POST('option_label');
+				$option_value	= $this->POST('option_value');
+
+				for ($i = 0; $i < count($option_label); $i++)
+				{
+					$details []= [
+						'label'	=> $option_label[$i],
+						'value'	=> $option_value[$i]
+					];
+				} 
+			}
+			else if ($type == 'criteria')
+			{
+				$subcriteria_label 	= $this->POST('subcriteria_label');
+				$subcriteria_key	= $this->POST('subcriteria_key');
+				$subcriteria_weight	= $this->POST('subcriteria_weight');
+				$sub_num			= count($subcriteria_label);
+
+				for ($i = 0; $i < $sub_num; $i++)
+				{
+					$option_label	= $this->POST($i . '-option_label');
+					$option_key		= $this->POST($i . '-option_key');
+					$opt_num 		= count($option_label);
+					$values 		= [];
+					for ($j = 0; $j < $opt_num; $j++)
+					{
+						$sub_label 	= $this->POST($i . '-' . ($j + $i) . '-sub_label');
+						$sub_value 	= $this->POST($i . '-' . ($j + $i) . '-sub_value');
+						$s_num 		= count($sub_label);
+						$sub_values = [];
+						for ($k = 0; $k < $s_num; $k++)
+						{
+							$sub_values[$sub_label[$k]] = $sub_value[$k];
+						}
+
+						$values[$option_key[$j]] = [
+							'label'		=> $option_label[$j],
+							'key'		=> $option_key[$j],
+							'values'	=> $sub_values
+						];
+					}
+
+					$details[$subcriteria_key[$i]] = [
+						'label'		=> $subcriteria_label[$i],
+						'key'		=> $subcriteria_key[$i],
+						'weight'	=> $subcriteria_weight[$i],
+						'values'	=> $values
+					];
+				}
+			}
+
+			$this->kriteria_m->update($this->data['id_kriteria'], [
+				'key'		=> $this->POST('key'),
+				'type'		=> $type,
+				'weight'	=> $this->POST('weight'),
+				'label'		=> $this->POST('label'),
+				'details'	=> json_encode($details)
+			]);
+
+			$this->flashmsg('Data kriteria berhasil disunting');
+			redirect('admin/edit-kriteria/' . $this->data['id_kriteria']);
+		}
+
+		$this->data['title']	= 'Form Edit Kriteria';
+		$this->data['content']	= 'form_edit_kriteria';
 		$this->template($this->data, $this->module);
 	}
 }

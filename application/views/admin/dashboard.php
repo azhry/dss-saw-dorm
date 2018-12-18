@@ -43,11 +43,11 @@
 				</div>
 				<div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
 					<div class="dashboard-stat2">
-						<a href="<?= base_url('admin/konfigurasi-spk') ?>">
+						<a href="<?= base_url('admin/kriteria') ?>">
 							<div class="display">
 								<div class="number">
-									<h3 class="font-green-sharp">-</h3>
-									<small>Konfigurasi SPK</small>
+									<h3 class="font-green-sharp"><?= count($kriteria) ?></h3>
+									<small>Daftar Kriteria</small>
 								</div>
 								<div class="icon">
 									<i class="icon-list"></i>

@@ -67,7 +67,7 @@
 									</td>
 									<td>
 										<div class="btn-group btn-group-solid">
-											<a href="<?= base_url('admin/detail-kriteria/' . $row->id_kriteria) ?>" class="btn blue btn-sm"><i class="fa fa-eye"></i> Detail</a>
+											<a href="<?= base_url('admin/edit-kriteria/' . $row->id_kriteria) ?>" class="btn blue btn-sm"><i class="fa fa-edit"></i> Edit</a>
 											<a href="<?= base_url('admin/kriteria/' . $row->id_kriteria) ?>" class="btn red btn-sm"><i class="fa fa-trash"></i> Delete</a>
 										</div>
 									</td>
