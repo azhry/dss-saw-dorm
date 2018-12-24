@@ -25,7 +25,7 @@
 							<div class="demo">
 								<?php  
 									$path = 'assets/foto/kost-' . $kost->id_kost;
-									$photos = scandir(FCPATH . $path);
+									$photos = file_exists($upload_dir) ? scandir(FCPATH . $path) : [];
 									$photos = array_values(array_diff($photos, ['.', '..']));
 								?>
 							    <ul id="lightSlider">
@@ -124,6 +124,13 @@
 			zoom: 16
 		});
 
+		var directionDisplay = new google.maps.DirectionsRenderer({
+        	polylineOptions: {
+        		strokeColor: 'red'
+        	}
+        });
+        directionDisplay.setMap(map);
+
         let markers = [];
         // Create a marker for each place.
         markers.push(new google.maps.Marker({
@@ -131,7 +138,7 @@
 			position: currentLocation
         }));
 
-        let unsriLocation = new google.maps.LatLng(-2.984833, 104.732662);
+        let unsriLocation = new google.maps.LatLng(-2.986570, 104.731808);
         let request = {
         	origin: currentLocation,
         	destination: unsriLocation,
@@ -140,6 +147,7 @@
 
         let directionService = new google.maps.DirectionsService();
         directionService.route(request, function(response, status) {
+        	directionDisplay.setDirections(response);
         	$('#jarak').text(response.routes[0].legs[0].distance.value + ' M');
         });
 

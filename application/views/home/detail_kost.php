@@ -140,7 +140,7 @@
 			position: currentLocation
         }));
 
-        let unsriLocation = new google.maps.LatLng(-2.984833, 104.732662);
+        let unsriLocation = new google.maps.LatLng(-2.986570, 104.731808);
         let request = {
         	origin: currentLocation,
         	destination: unsriLocation,

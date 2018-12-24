@@ -67,6 +67,7 @@
 									<td>
 										<div class="btn-group btn-group-solid">
 											<a href="<?= base_url('admin/detail-kost/' . $row->id_kost) ?>" class="btn blue btn-sm"><i class="fa fa-eye"></i> Lihat Info Detail</a>
+											<a href="#" class="btn btn-info btn-sm">Ubah Status</a>
 										</div>
 									</td>
 								</tr>

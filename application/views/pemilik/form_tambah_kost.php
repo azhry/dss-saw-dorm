@@ -191,8 +191,8 @@
         });
         directionDisplay.setMap(map);
 
-		// $('input[name=latitude]').val(lat);
-		// $('input[name=longitude]').val(lng);
+		$('input[name=latitude]').val(lat);
+		$('input[name=longitude]').val(lng);
 
 		let input = document.getElementById('pac-input');
         let searchBox = new google.maps.places.SearchBox(input);
