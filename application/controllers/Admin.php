@@ -47,6 +47,28 @@ class Admin extends MY_Controller
 			exit;
 		}
 
+		if ($this->POST('ubah_status'))
+		{
+			$this->load->model('pengguna_m');
+			$status = $this->POST('status');
+			$data = [
+				'status'			=> $status,
+				'pesan_verifikasi'	=> $status == 'Verified' ? '' : $this->POST('pesan')
+			];
+			$this->kost_m->update($this->POST('id_kost'), $data);
+			$kost = $this->kost_m->get_row(['id_kost' => $this->POST('id_kost')]);
+			$pengguna = $this->pengguna_m->get_row(['id_pengguna' => $kost->id_pengguna]);
+			if (isset($pengguna))
+			{
+				$this->load->library('CI_PHPMailer/ci_phpmailer');
+				$this->ci_phpmailer->setServer('smtp.gmail.com');
+				$this->ci_phpmailer->setAuth('nelyyupitaaa@gmail.com', 'nely12345');
+				$this->ci_phpmailer->setAlias('nelyyupitaaa@gmail.com', 'Nely Yupita');
+				$this->ci_phpmailer->sendMessage($pengguna->email, 'Status Verifikasi Kost ' . $kost->kost, $status == 'Verified' ? 'Kost ' . $kost->kost . ' telah berhasil diverifikasi' : $data['pesan_verifikasi']);
+			}
+			exit;
+		}
+
 		$this->data['kost']		= $this->kost_m->get_by_order('id_kost', 'DESC');
 		$this->data['title']	= 'Daftar Kost';
 		$this->data['content']	= 'daftar_kost';
@@ -101,8 +123,8 @@ class Admin extends MY_Controller
 						{
 							$this->load->library('CI_PHPMailer/ci_phpmailer');
 							$this->ci_phpmailer->setServer('smtp.gmail.com');
-							$this->ci_phpmailer->setAuth('testdevsmail@gmail.com', '4kuGanteng');
-							$this->ci_phpmailer->setAlias('admin@sistemkost.com', 'Sistem Kost');
+							$this->ci_phpmailer->setAuth('nelyyupitaaa@gmail.com', 'nely12345');
+							$this->ci_phpmailer->setAlias('nelyyupitaaa@gmail.com', 'Nely Yupita');
 							$this->ci_phpmailer->sendMessage($pengguna->email, 'Status Verifikasi Kost ' . $kost->kost, 'Kost ' . $kost->kost . ' telah berhasil diverifikasi');
 						}
 						break;
