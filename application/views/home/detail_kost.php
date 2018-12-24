@@ -25,7 +25,7 @@
 							<div class="demo">
 								<?php  
 									$path = 'assets/foto/kost-' . $kost->id_kost;
-									$photos = scandir(FCPATH . $path);
+									$photos = file_exists(FCPATH . $path) ? scandir(FCPATH . $path) : [];
 									$photos = array_values(array_diff($photos, ['.', '..']));
 								?>
 							    <ul id="lightSlider">
