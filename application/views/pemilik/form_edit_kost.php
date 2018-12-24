@@ -281,7 +281,7 @@
 	        let request = {
 	        	origin: currentLocation,
 	        	destination: unsriLocation,
-	        	travelMode: google.maps.TravelMode.DRIVING
+	        	travelMode: google.maps.TravelMode.WALKING
 	        };
 
 	        let directionService = new google.maps.DirectionsService();

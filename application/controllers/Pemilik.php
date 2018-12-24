@@ -50,7 +50,7 @@ class Pemilik extends MY_Controller
 			exit;
 		}
 
-		$this->data['kost']		= $this->kost_m->get_by_order('id_kost', 'DESC');
+		$this->data['kost']		= $this->kost_m->get_by_order('id_kost', 'DESC', ['id_pengguna' => $this->data['id_pengguna']]);
 		$this->data['title']	= 'Daftar Kost';
 		$this->data['content']	= 'daftar_kost';
 		$this->template($this->data, $this->module);
@@ -306,7 +306,7 @@ class Pemilik extends MY_Controller
 				$this->remove_directory($assets_url . 'temp_files');
 			}
 
-			$this->flashmsg('Data kost berhasil disimpan');
+			$this->flashmsg('Data kost berhasil diperbarui');
 			redirect('pemilik/edit-kost/' . $this->data['id_kost']);	
 		}
 

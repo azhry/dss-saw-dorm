@@ -22,11 +22,9 @@
 								<div class="col-md-6">
 									<select class="form-control input-circle" id="harga_sewa" name="harga_sewa">
 										<option value="">-- Pilih Harga Sewa --</option>
-										<option value="5">&lt; Rp. 8.000.000</option>
-										<option value="4">Rp. 8.100.000 - Rp. 9.100.000</option>
-										<option value="3">Rp. 9.200.000 - Rp. 10.200.000</option>
-										<option value="2">Rp. 10.300.000 - Rp. 11.300.000</option>
-										<option value="1">Rp. 11.400.000 &gt;</option>
+										<?php $v = 0; for ($i = count($range['harga_sewa']) - 1; $i >= 0; $i--): ?>
+											<option value="<?= ++$v ?>"><?= 'Rp. ' . number_format($range['harga_sewa'][$i]['min'], 2, ',', '.') . ' - ' . 'Rp. ' . number_format($range['harga_sewa'][$i]['max'], 2, ',', '.') ?></option>
+										<?php endfor; ?>
 									</select>
 								</div>
 							</div>
@@ -45,11 +43,9 @@
 								<div class="col-md-6">
 									<select class="form-control input-circle" id="luas_kamar" name="luas_kamar">
 										<option value="">-- Pilih Luas Kamar --</option>
-										<option value="5">22 m² &gt;</option>
-										<option value="4">18 m² - 21 m²</option>
-										<option value="3">14 m² - 17 m²</option>
-										<option value="2">10 m² - 13 m²</option>
-										<option value="1">&lt; 9 m²</option>
+										<?php for ($i = count($range['luas_kamar']) - 1; $i >= 0; $i--): ?>
+											<option value="<?= $i + 1 ?>"><?= $range['luas_kamar'][$i]['min'] . ' m² - ' . $range['luas_kamar'][$i]['max'] . ' m²' ?></option>
+										<?php endfor; ?>
 									</select>
 								</div>
 							</div>
@@ -58,31 +54,22 @@
 								<div class="col-md-6">
 									<select class="form-control input-circle" id="lokasi" name="lokasi">
 										<option value="">-- Pilih Jarak Lokasi --</option>
-										<option value="5">&lt; 236 M</option>
-										<option value="4">236,1 M - 352,1 M</option>
-										<option value="3">352,2 M - 468,2 M</option>
-										<option value="2">468,3 M - 584,3 M</option>
-										<option value="1">584,4 M &gt;</option>
+										<?php $v = 0; for ($i = count($range['lokasi']) - 1; $i >= 0; $i--): ?>
+											<option value="<?= ++$v ?>"><?= $range['lokasi'][$i]['min'] . ' M - ' . $range['lokasi'][$i]['max'] . ' M' ?></option>
+										<?php endfor; ?>
 									</select>
 								</div>
 							</div>
-							<div class="form-group">
-								<label class="col-md-3 control-label">Fasilitas</label>
-								<div class="col-md-5">
-									<select class="form-control input-circle" id="jenis_fasilitas">
-										<option value="">-- Pilih Jenis Fasilitas --</option>
-										<?php foreach ($fasilitas as $key => $value): ?>
-											<option value="<?= $key ?>"><?= $value['label'] ?></option>
-										<?php endforeach; ?>
-									</select>
-								</div>
-								<div class="col-md-4">
-									<button type="button" onclick="tambah_fasilitas();" class="btn blue">
-										<i class="fa fa-plus"></i> Tambah Fasilitas
-									</button>
-								</div>
-							</div>
-							<div id="fasilitas"></div>
+							<table class="table table-striped table-hover table-bordered">
+								<thead>
+									<tr>
+										<th>Jenis</th>
+										<th colspan="3"></th>
+										<th>Aksi</th>
+									</tr>
+								</thead>
+								<tbody id="fasilitas"></tbody>
+							</table>
 						</div>
 						<div class="form-actions">
 							<div class="row">
@@ -120,11 +107,22 @@
 	</div>
 
 	<script type="text/javascript">
+
+		$(document).ready(function() {
+			<?php foreach ($fasilitas as $key => $value): ?>
+				tambah_fasilitas_row('<?= $key ?>');
+			<?php endforeach; ?>
+		});
+
 		function isInArray(value, array) {
 			return array.indexOf(value) > -1;
 		}
 		
 		var fasilitas = [];
+
+		function get_checkbox_values(name) {
+			return $('input[name="' + name + '"]:checked').map(function() { return $(this).val(); }).get();
+		}
 
 		function search() {
 			<?php 
@@ -139,7 +137,8 @@
 				harga_sewa: $('#harga_sewa').val(),
 				luas_kamar: $('#luas_kamar').val(),
 				lokasi: $('#lokasi').val(),
-				tipe: $('#tipe').val()
+				tipe: $('#tipe').val(),
+				jenis: get_checkbox_values('jenis[]')
 			};
 
 			for (let i = 0; i < fasilitas.length; i++) {
@@ -195,28 +194,33 @@
 					console.log(response);
 					let json = $.parseJSON(response);
 					let html = '';
-					for (let i = 0; i < json.length; i++) {
-						html += '<div class="search-classic">' +
-									'<div class="row">' +
-										'<div class="col-md-3">' +
-											'<img src="' + json[i].foto + '" onerror="this.src = \'http://placehold.it/200\'" width="100%"/>' +
+					if (json.length <= 0) {
+						html  = '<h3>Kost yang anda cari tidak ditemukan</h3>';
+					} else {
+						for (let i = 0; i < json.length; i++) {
+							html += '<div class="search-classic">' +
+										'<div class="row">' +
+											'<div class="col-md-3">' +
+												'<img src="' + json[i].foto + '" onerror="this.src = \'http://placehold.it/200\'" width="100%"/>' +
+											'</div>' +
+											'<div class="col-md-8">' +
+												'<h4>' +
+													'<a href="<?= base_url('home/detail-kost') ?>/' + json[i].id_kost + '">' +
+														json[i].kost +
+													'</a>' +
+												'</h4>' +
+													'<a href="javascript:;">' +
+														json[i].harga_sewa +
+													'</a>' +
+												'<p>' +
+													json[i].fasilitas +
+												'</p>' +
+											'</div>' +
 										'</div>' +
-										'<div class="col-md-8">' +
-											'<h4>' +
-												'<a href="<?= base_url('home/detail-kost') ?>/' + json[i].id_kost + '">' +
-													json[i].kost +
-												'</a>' +
-											'</h4>' +
-												'<a href="javascript:;">' +
-													json[i].harga_sewa +
-												'</a>' +
-											'<p>' +
-												json[i].fasilitas +
-											'</p>' +
-										'</div>' +
-									'</div>' +
-								'</div>';
+									'</div>';
+						}
 					}
+					
 					$('#search-result').html(html);
 				},
 				error: function(err) { console.log(err.responseText); }
@@ -256,6 +260,37 @@
 			<?php endforeach; ?>
 		}
 
+		function tambah_fasilitas_row(jenis) {
+			let jenis_fasilitas = jenis;
+			<?php foreach ($fasilitas as $key => $value): ?>
+				if (jenis_fasilitas === '<?= $key ?>') {
+					let config = {};
+					let opt;
+					<?php 
+						$opt = $value['values']; 
+						foreach ($opt as $k => $v):
+						?>
+							<?php $values = $v['values']; ?>
+							
+							opt = [];
+							
+							<?php foreach ($values as $ok => $ov): ?>
+								opt.push('<?= $ok ?>');
+							<?php endforeach; ?>
+
+							config['<?= $k ?>'] = opt;
+
+						<?php endforeach; ?>
+					if (!isInArray('<?= $key ?>', fasilitas)) {
+						create_option_cell('<?= $value['label'] ?>', config, '<?= $key ?>');
+						fasilitas.push('<?= $key ?>');
+					} else {
+						alert('Fasilitas tersebut telah ditambahkan sebelumnya');
+					}
+				}
+			<?php endforeach; ?>
+		}
+
 		function generate_option(key, opt) {
 			let html = '<div class="col-md-3">';
 			html += '<select class="form-control input-circle" id="' + key + '" name="' + key + '">';
@@ -267,6 +302,38 @@
 			html += '</select>';
 			html += '</div>';
 			return html;
+		}
+
+		function generate_row(key, opt) {
+			let html = '<td>';
+			html += '<select class="form-control input-circle" id="' + key + '" name="' + key + '">';
+			let name = key.replace(/_/g, x => ' ');
+			html += '<option value="">' + name + '</option>';
+			for (let i = 0; i < opt.length; i++) {
+				html += '<option ' + (i == 0 ? 'selected' : '') + ' value="' + opt[i] + '">' + opt[i] + '</option>';
+			}
+			html += '</select>';
+			html += '</td>';
+			return html;
+		}
+
+		function create_option_cell(label, config, key) {
+			let html = '<tr>' +
+					'<td><small>' + label + '</small></td>';
+			let i = 0;
+			for (let k in config) {
+				if (config.hasOwnProperty(k)) {
+					html += generate_row(k, config[k]);
+					i++;
+				}
+			}
+			for (let x = 0; x <= 2 - i; x++) {
+				html += '<td></td>';
+			}
+
+			html += '<td><input type="checkbox" value="' + key + '" name="jenis[]"/></td>';
+			html += '</tr>';
+			$('#fasilitas').append(html);
 		}
 
 		function create_option_form(label, config, key) {

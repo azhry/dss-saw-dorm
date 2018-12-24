@@ -13,10 +13,11 @@ class MY_Controller extends CI_Controller
 		date_default_timezone_set("Asia/Jakarta");
 	}
 
-	protected function template($data, $module = '')
+	protected function template($data, $module = '', $exclude = [])
 	{
 		$data['global_title'] 	= $this->title;
 		$data['module']			= $module;
+		$data['exclude']		= $exclude;
 		if ( strlen( $module ) > 0 ) return $this->load->view( $module . '/includes/layout', $data );
 	    return $this->load->view( 'includes/layout', $data );
 	}

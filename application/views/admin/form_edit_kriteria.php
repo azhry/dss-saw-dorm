@@ -23,25 +23,25 @@
 						<div class="form-body">
 							<?= $this->session->flashdata('msg') ?>
 							<div class="form-group">
-								<label class="col-md-3 control-label">Label</label>
+								<label class="col-md-3 control-label">Nama Kriteria</label>
 								<div class="col-md-4">
 									<input type="text" name="label" value="<?= $kriteria->label ?>" class="form-control">
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="col-md-3 control-label">Key</label>
+								<label class="col-md-3 control-label">Kunci</label>
 								<div class="col-md-4">
 									<input type="text" name="key" value="<?= $kriteria->key ?>" class="form-control">
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="col-md-3 control-label">Weight</label>
+								<label class="col-md-3 control-label">Bobot</label>
 								<div class="col-md-4">
 									<input type="number" name="weight" value="<?= $kriteria->weight ?>" class="form-control">
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="col-md-3 control-label">Type</label>
+								<label class="col-md-3 control-label">Tipe</label>
 								<div class="col-md-4">
 									<?php  
 										$opt = [

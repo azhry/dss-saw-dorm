@@ -179,13 +179,20 @@
 		let lat = -2.990934;
 		let lng = 104.7754;
 
-		let map = new google.maps.Map(document.getElementById('map'), {
+		var map = new google.maps.Map(document.getElementById('map'), {
 			center: {lat: lat, lng: lng},
 			zoom: 12
 		});
 
-		$('input[name=latitude]').val(lat);
-		$('input[name=longitude]').val(lng);
+		var directionDisplay = new google.maps.DirectionsRenderer({
+        	polylineOptions: {
+        		strokeColor: 'red'
+        	}
+        });
+        directionDisplay.setMap(map);
+
+		// $('input[name=latitude]').val(lat);
+		// $('input[name=longitude]').val(lng);
 
 		let input = document.getElementById('pac-input');
         let searchBox = new google.maps.places.SearchBox(input);
@@ -258,18 +265,18 @@
 
         function setJarak(latLng) {
         	let currentLocation = latLng;
-			let unsriLocation = new google.maps.LatLng(-2.986569, 104.731805);
+        	// -2.986570, 104.731808
+			let unsriLocation = new google.maps.LatLng(-2.986570, 104.731808);
 	        
 	        let request = {
 	        	origin: currentLocation,
 	        	destination: unsriLocation,
-	        	travelMode: google.maps.TravelMode.DRIVING
+	        	travelMode: google.maps.TravelMode.WALKING
 	        };
-
-	        console.log(google.maps.TravelMode);
 
 	        let directionService = new google.maps.DirectionsService();
 	        directionService.route(request, function(response, status) {
+	        	directionDisplay.setDirections(response);
 	        	$('#jarak').val(response.routes[0].legs[0].distance.value);
 	        });
         }

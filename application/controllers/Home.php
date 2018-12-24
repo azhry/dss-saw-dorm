@@ -10,11 +10,66 @@ class Home extends MY_Controller
 
     public function index()
     {
+        $this->data['title']    = 'Selamat Datang';
+        $this->data['content']  = 'main';
+        $this->template($this->data, $this->module, ['sidebar']);
+    }
+
+    public function cari()
+    {
+        $this->load->model('kost_m');
+        $this->data['range']        = $this->kost_m->get_range();
         $this->load->library('Saw/criteria');
+        $this->load->library('Saw/saw');
+
+        $this->load->model('kriteria_m');
+        $kriteria = $this->kriteria_m->get();
+        $config = [];
+        foreach ($kriteria as $row)
+        {
+            $details = json_decode($row->details, true);
+
+            if ($row->type == 'range') {
+                $max = PHP_INT_MIN;
+                $min = PHP_INT_MAX;
+                $max_idx = -1;
+                $min_idx = -1;
+                for ($i = 0; $i < count($details); $i++)
+                {
+                    if ($details[$i]['max'] > $max) {
+                        $max = $details[$i]['max'];
+                        $max_idx = $i;
+                    }
+
+                    if ($details[$i]['min'] > $min) {
+                        $min = $details[$i]['min'];
+                        $min_idx = $i;
+                    }
+                }
+                $details[$max_idx]['max'] = null;
+                $details[$min_idx]['min'] = null;
+            }
+            else if ($row->type == 'criteria') 
+            {
+                $details = json_decode($row->details, true);
+                $this->data['fasilitas']    = $details;
+            }
+
+            $config[$row->key] = [
+             'key'        => $row->key,
+             'weight'    => $row->weight,
+             'label'        => $row->label,
+             'type'        => $row->type,
+             'values'    => $details
+            ];
+        }
+
+        $this->saw->set_config($config);
         $this->data['config']         = $this->criteria->get_config();
         $this->data['fasilitas']    = $this->data['config']['fasilitas']['values'];
+        $this->data['fasilitas']    = $this->data['config']['fasilitas']['values'];
         $this->data['title']        = 'Home';
-        $this->data['content']        = 'home';
+        $this->data['content']      = 'home';
         $this->template($this->data, $this->module);    
     }
 
@@ -50,29 +105,10 @@ class Home extends MY_Controller
         $this->template($this->data, $this->module);
     }
 
-    public function cari()
-    {
-        $this->load->library('Topsis/topsis');
-        $this->load->model('ruko_m');
-        
-        $this->data['criteria']    = $this->topsis->criteria;
-        $this->data['config']    = $this->data['criteria']->get_config();
-        $this->data['ruko']        = json_decode(json_encode($this->ruko_m->get()), true);
-        
-        $matrix = $this->topsis->fit($this->data['ruko'], ['ruko', 'id_ruko', 'id_pengguna', 'latitude', 'longitude', 'jumlah_kamar', 'tipe', 'status']);
-        $weight = $this->topsis->weight();
-        $distance = $this->topsis->solution_distance();
-        $rank = $this->topsis->rank();
-        $this->data['ruko']        = $rank;
-
-        $this->data['title']    = 'Cari Ruko';
-        $this->data['content']    = 'cari';
-        $this->template($this->data, $this->module);
-    }
-
     public function rank()
     {
-        if ($this->POST('cari')) {
+        if ($this->POST('cari')) 
+        {
             $this->load->library('Saw/criteria');
             $this->load->library('Saw/saw');
 
@@ -103,7 +139,8 @@ class Home extends MY_Controller
                     $details[$max_idx]['max'] = null;
                     $details[$min_idx]['min'] = null;
                 }
-                else if ($row->type == 'criteria') {
+                else if ($row->type == 'criteria') 
+                {
                     $details = json_decode($row->details, true);
                     $this->data['fasilitas']    = $details;
                 }
@@ -122,58 +159,37 @@ class Home extends MY_Controller
             $this->data['fasilitas']    = $this->data['config']['fasilitas']['values'];
 
             $this->load->model('kost_m');
+            $range = $this->kost_m->get_range();
+
             $cond = '';
-            
-            if (!empty($this->POST('harga_sewa'))) {
+            if (!empty($this->POST('harga_sewa'))) 
+            {
                 $harga_sewa = $this->POST('harga_sewa');
-                switch ($harga_sewa)
-                {
-                case 1:
-                    $cond .= 'harga_sewa >= 11400000 ';
-                    break;
-                case 2:
-                    $cond .= '(harga_sewa >= 10300000 AND harga_sewa <= 11300000) ';
-                    break;
-                case 3:
-                    $cond .= '(harga_sewa >= 9200000 AND harga_sewa <= 10200000) ';
-                    break;
-                case 4:
-                       $cond .= '(harga_sewa >= 8100000 AND harga_sewa <= 9100000) ';
-                    break;
-                case 5:
-                       $cond .= 'harga_sewa <= 8000000 ';
-                    break;
-                }
+                $range_sewa = $range['harga_sewa'];
+                $cond .= '(harga_sewa >= ' . $range_sewa[count($range_sewa) - $harga_sewa]['min'] . ' AND harga_sewa <= ' . $range_sewa[count($range_sewa) - $harga_sewa]['max'] . ') ';
             }
 
-            if (!empty($this->POST('lokasi'))) {
-                if (strlen($cond) > 0) {
+            if (!empty($this->POST('lokasi'))) 
+            {
+                if (strlen($cond) > 0) 
+                {
                     $cond .= 'AND ';
                 }
 
                 $lokasi = $this->POST('lokasi');
-                switch ($lokasi)
-                {
-                case 1:
-                    $cond .= 'lokasi >= 108 ';
-                    break;
-                case 2:
-                    $cond .= '(lokasi >= 93 AND lokasi <= 107) ';
-                    break;
-                case 3:
-                    $cond .= '(lokasi >= 63 AND lokasi <= 77) ';
-                    break;
-                case 4:
-                    $cond .= '(lokasi >= 78 AND lokasi <= 92) ';
-                    break;
-                case 5:
-                    $cond .= 'lokasi <= 62 ';
-                    break;
-                }
+                $range_lokasi = $range['lokasi'];
+                $cond .= '(lokasi >= ' . $range_lokasi[count($range_lokasi) - $lokasi]['min'] . ' AND lokasi <= ' . $range_lokasi[count($range_lokasi) - $lokasi]['max'] . ') ';
             }
 
+            $jenis = $this->POST('jenis');
+            $jenis = isset($jenis) ? $jenis : [];
             foreach ($this->data['fasilitas'] as $key => $value)
             {
+                if (!in_array($key, $jenis))
+                {
+                    continue;
+                }
+
                 $i = 0;
                 foreach ($value['values'] as $k => $v)
                 {
@@ -189,30 +205,16 @@ class Home extends MY_Controller
                 }
             }
 
-            if (!empty($this->POST('luas_kamar'))) {
-                if (strlen($cond) > 0) {
+            if (!empty($this->POST('luas_kamar'))) 
+            {
+                if (strlen($cond) > 0) 
+                {
                     $cond .= 'AND ';
                 }
                 
                 $luas_kamar = $this->POST('luas_kamar');
-                switch ($luas_kamar)
-                {
-                case 1:
-                    $cond .= 'luas_kamar <= 9 ';
-                    break;
-                case 2:
-                    $cond .= '(luas_kamar >= 10 AND luas_kamar <= 13) ';
-                    break;
-                case 3:
-                    $cond .= '(luas_kamar >= 14 AND luas_kamar <= 17) ';
-                    break;
-                case 4:
-                    $cond .= '(luas_kamar >= 18 AND luas_kamar <= 21) ';
-                    break;
-                case 5:
-                    $cond .= 'luas_kamar >= 22 ';
-                    break;
-                }
+                $luas_kamar_range = $range['luas_kamar'];
+                $cond .= '(luas_kamar >= ' . $luas_kamar_range[$luas_kamar - 1]['min'] . ' AND luas_kamar <= ' . $luas_kamar_range[$luas_kamar - 1]['max'] . ') ';
             }
 
             if (!empty($this->POST('tipe'))) {
@@ -236,10 +238,10 @@ class Home extends MY_Controller
             if (count($this->data['kost']) > 0) {
                 $this->saw->set_criteria_type(
                     [
-                    'harga_sewa'    => 'cost',
-                    'lokasi'        => 'cost',
-                    'luas_kamar'    => 'benefit',
-                    'fasilitas'        => 'benefit'
+                        'harga_sewa'    => 'cost',
+                        'lokasi'        => 'cost',
+                        'luas_kamar'    => 'benefit',
+                        'fasilitas'     => 'benefit'
                     ]
                 );
                 $this->load->model('kost_m');
@@ -249,7 +251,7 @@ class Home extends MY_Controller
                          return $x;
                     }, $this->data['kost']
                 );
-                $this->saw->fit($this->data['kost'], ['id_kost', 'id_pengguna', 'kost', 'latitude', 'longitude', 'status', 'jumlah_kamar', 'tipe']);
+                $this->saw->fit($this->data['kost'], ['id_kost', 'id_pengguna', 'kost', 'latitude', 'longitude', 'status', 'jumlah_kamar', 'tipe', 'pesan_verifikasi']);
                 $this->saw->normalize();
                 $this->saw->result();
 
@@ -258,8 +260,11 @@ class Home extends MY_Controller
                     function ($row) {
                          $row = (array)$row;
                          $path = 'assets/foto/kost-' . $row['id_kost'];
-                         $foto = scandir(FCPATH . $path);
-                         $foto = array_values(array_diff($foto, ['.', '..']));
+                         if (file_exists(FCPATH . $path))
+                         {
+                            $foto = scandir(FCPATH . $path);
+                            $foto = array_values(array_diff($foto, ['.', '..']));
+                         }
                          $row['fasilitas'] = implode(',', array_keys($row['fasilitas']));
                          $row['foto'] = isset($foto[0]) ? base_url($path . '/' . $foto[0]) : 'http://placehold.it/313x313';
                          $row['harga_sewa'] = 'Rp. ' . number_format($row['harga_sewa'], 2, ',', '.');
