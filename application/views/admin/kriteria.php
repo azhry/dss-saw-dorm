@@ -34,19 +34,19 @@
 						<thead>
 							<tr>
 								<th style="text-align: center;">
-									Label
+									Nama Kriteria
 								</th>
 								<th style="text-align: center;">
-									Key
+									Kunci
 								</th>
 								<th style="text-align: center;">
-									Type
+									Tipe
 								</th>
 								<th style="text-align: center;">
-									Weight
+									Bobot
 								</th>
 								<th width="250" style="text-align: center;">
-									Action
+									Aksi
 								</th>
 							</tr>
 						</thead>

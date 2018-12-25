@@ -32,10 +32,10 @@
 									Harga Sewa Per Tahun
 								</th>
 								<th style="text-align: center;">
-									Luas Kamar
+									Lokasi
 								</th>
 								<th style="text-align: center;">
-									Lokasi
+									Luas Kamar
 								</th>
 								<th width="200" style="text-align: center;">
 									Aksi
@@ -52,11 +52,11 @@
 									<td>
 										<?= 'Rp. ' . number_format($row->harga_sewa, 2, ',', '.') ?>
 									</td>
-									<td>
-										<?= $row->luas_kamar ?> m²
-									</td>
 									<td class="center">
 										<?= $row->lokasi ?> M
+									</td>
+									<td>
+										<?= $row->luas_kamar ?> m²
 									</td>
 									<td>
 										<div class="btn-group btn-group-solid">

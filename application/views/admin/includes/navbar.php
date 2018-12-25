@@ -5,11 +5,10 @@
         <!-- BEGIN LOGO -->
         <div class="page-logo">
             <a href="<?= base_url('pemilik') ?>">
-                <img src="<?= base_url('assets/metronic') ?>/assets/admin/layout4/img/logo-light.png" alt="logo" class="logo-default"/>
+                <img src="<?= base_url('assets/web-img/logo.png') ?>" style="margin-top: 10px;" width="100%" alt="logo" class="logo-default"/>
             </a>
-            <div class="menu-toggler sidebar-toggler">
-                <!-- DOC: Remove the above "hide" to enable the sidebar toggler button on header -->
-            </div>
+            <!-- <div class="menu-toggler sidebar-toggler">
+            </div> -->
         </div>
         <!-- END LOGO -->
         <!-- BEGIN RESPONSIVE MENU TOGGLER -->
@@ -28,7 +27,7 @@
                         <span class="username username-hide-on-mobile">
                         Admin </span>
                         <!-- DOC: Do not remove below empty space(&nbsp;) as its purposely used -->
-                        <img alt="" class="img-circle" src="<?= base_url('assets/metronic') ?>/assets/admin/layout4/img/avatar9.jpg"/>
+                        <img alt="" class="img-circle" src="<?= base_url('assets/web-img/169188.jpg') ?>"/>
                         </a>
                         <ul class="dropdown-menu dropdown-menu-default">
                             <li>

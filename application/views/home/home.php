@@ -18,6 +18,16 @@
 						<div class="form-body">
 							<?= $this->session->flashdata('msg') ?>
 							<div class="form-group">
+								<label class="col-md-3 control-label">Tipe</label>
+								<div class="col-md-6">
+									<select class="form-control input-circle" id="tipe" name="tipe">
+										<option value="">-- Pilih Tipe --</option>
+										<option value="Laki-laki">Laki-laki</option>
+										<option value="Perempuan">Perempuan</option>
+									</select>
+								</div>
+							</div>
+							<div class="form-group">
 								<label class="col-md-3 control-label">Harga Sewa Per Tahun</label>
 								<div class="col-md-6">
 									<select class="form-control input-circle" id="harga_sewa" name="harga_sewa">
@@ -29,12 +39,13 @@
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="col-md-3 control-label">Tipe</label>
+								<label class="col-md-3 control-label">Lokasi</label>
 								<div class="col-md-6">
-									<select class="form-control input-circle" id="tipe" name="tipe">
-										<option value="">-- Pilih Tipe --</option>
-										<option value="Laki-laki">Laki-laki</option>
-										<option value="Perempuan">Perempuan</option>
+									<select class="form-control input-circle" id="lokasi" name="lokasi">
+										<option value="">-- Pilih Jarak Lokasi --</option>
+										<?php $v = 0; for ($i = count($range['lokasi']) - 1; $i >= 0; $i--): ?>
+											<option value="<?= ++$v ?>"><?= $range['lokasi'][$i]['min'] . ' M - ' . $range['lokasi'][$i]['max'] . ' M' ?></option>
+										<?php endfor; ?>
 									</select>
 								</div>
 							</div>
@@ -45,17 +56,6 @@
 										<option value="">-- Pilih Luas Kamar --</option>
 										<?php for ($i = count($range['luas_kamar']) - 1; $i >= 0; $i--): ?>
 											<option value="<?= $i + 1 ?>"><?= $range['luas_kamar'][$i]['min'] . ' m² - ' . $range['luas_kamar'][$i]['max'] . ' m²' ?></option>
-										<?php endfor; ?>
-									</select>
-								</div>
-							</div>
-							<div class="form-group">
-								<label class="col-md-3 control-label">Lokasi</label>
-								<div class="col-md-6">
-									<select class="form-control input-circle" id="lokasi" name="lokasi">
-										<option value="">-- Pilih Jarak Lokasi --</option>
-										<?php $v = 0; for ($i = count($range['lokasi']) - 1; $i >= 0; $i--): ?>
-											<option value="<?= ++$v ?>"><?= $range['lokasi'][$i]['min'] . ' M - ' . $range['lokasi'][$i]['max'] . ' M' ?></option>
 										<?php endfor; ?>
 									</select>
 								</div>
@@ -94,7 +94,7 @@
 					</a>
 				</div>
 				<div class="booking-offer">
-					<img src="<?= base_url('assets/metronic') ?>/assets/admin/pages/media/search/1.jpg" class="img-responsive" alt="">
+					<img src="<?= base_url('assets/web-img/169184.jpg') ?>" class="img-responsive" alt="">
 					<div class="booking-offer-in" style="background-color: rgba(0, 0, 0, 0.5);">
 						<span>Anda pemilik kostan?</span>
 						<em>

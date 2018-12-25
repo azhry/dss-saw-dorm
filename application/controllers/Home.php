@@ -126,7 +126,7 @@ class Home extends MY_Controller
         }
 
         $this->saw->set_config($config);
-        $this->data['config']         = $this->criteria->get_config();
+        $this->data['config']       = $this->criteria->get_config();
         $this->data['fasilitas']    = $this->data['config']['fasilitas']['values'];
         $this->load->model('kost_m');
         $this->data['kost']    = $this->kost_m->get();

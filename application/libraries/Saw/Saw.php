@@ -103,6 +103,10 @@ class Saw
 	{
 		$result = $this->result();
 		$data = $this->data;
+		for ($i = 0; $i < count($data); $i++)
+		{
+			$data[$i]->total = $result[$i]['total'];
+		}
 		array_multisort(array_column($result, 'total'), $order == 'desc' ? SORT_DESC : SORT_ASC, $data);
 		return $data;
 	}

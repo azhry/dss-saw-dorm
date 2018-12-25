@@ -1,7 +1,7 @@
 <link href="<?= base_url('assets/metronic') ?>/assets/admin/pages/css/search.css" rel="stylesheet" type="text/css"/>
 <div style="background-color: black !important; margin: 0 !important;">
 	<div class="booking-offer">
-		<img src="<?= base_url('assets/metronic') ?>/assets/admin/pages/media/search/1.jpg" class="img-responsive" alt="" style="width: 100%;">
+		<img src="<?= base_url('assets/web-img/169183.jpg') ?>" class="img-responsive" alt="" style="width: 100%;">
 		<div class="booking-offer-in" style="background-color: rgba(0, 0, 0, 0.5);">
 			<div class="vertical-center">
 				<div class="text-center">

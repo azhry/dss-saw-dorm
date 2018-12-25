@@ -44,6 +44,9 @@
 						<thead>
 							<tr>
 								<th style="text-align: center;">
+									No.
+								</th>
+								<th style="text-align: center;">
 									Kost
 								</th>
 								<th style="text-align: center;">
@@ -56,6 +59,9 @@
 									Lokasi
 								</th>
 								<th style="text-align: center;">
+									Skor
+								</th>
+								<th style="text-align: center;">
 									Status
 								</th>
 								<th width="200" style="text-align: center;">
@@ -64,8 +70,11 @@
 							</tr>
 						</thead>
 						<tbody>
-							<?php foreach ($kost as $row): ?>
+							<?php $i = 0; foreach ($kost as $row): ?>
 								<tr class="odd gradeX">
+									<td>
+										<?= ++$i ?>
+									</td>
 									<td>
 										<?= $row->kost ?>
 									</td>
@@ -77,6 +86,9 @@
 									</td>
 									<td class="center">
 										<?= $row->lokasi ?> M
+									</td>
+									<td>
+										<?= $row->total ?>
 									</td>
 									<td id="button-<?= $row->id_kost ?>">
 										<?php if ($row->status == 'Verified'): ?>
@@ -144,7 +156,9 @@
 <script type="text/javascript" src="<?= base_url('assets/metronic') ?>/assets/global/plugins/datatables/plugins/bootstrap/dataTables.bootstrap.js"></script>
 <script type="text/javascript">
 	$(document).ready(function() {
-		$('#sample_1').dataTable();
+		$('#sample_1').dataTable({
+			ordering: false
+		});
 
 		$('input[name=status]').on('change', function() {
 			const status = $('input[name=status]:checked').val();
