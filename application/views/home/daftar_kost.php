@@ -23,6 +23,9 @@
 						<thead>
 							<tr>
 								<th style="text-align: center;">
+									No
+								</th>
+								<th style="text-align: center;">
 									Kost
 								</th>
 								<th style="text-align: center;">
@@ -40,8 +43,9 @@
 							</tr>
 						</thead>
 						<tbody>
-							<?php foreach ($kost as $row): ?>
+							<?php $i = 0; foreach ($kost as $row): ?>
 								<tr class="odd gradeX">
+									<td><?= ++$i ?></td>
 									<td>
 										<?= $row->kost ?>
 									</td>
@@ -76,6 +80,8 @@
 <script type="text/javascript" src="<?= base_url('assets/metronic') ?>/assets/global/plugins/datatables/plugins/bootstrap/dataTables.bootstrap.js"></script>
 <script type="text/javascript">
 	$(document).ready(function() {
-		$('#sample_1').dataTable();
+		$('#sample_1').dataTable({
+			ordering: false
+		});
 	});
 </script>

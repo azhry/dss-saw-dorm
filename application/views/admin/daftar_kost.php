@@ -1,3 +1,24 @@
+<style type="text/css">
+.spinner {
+	display: inline-block;
+	opacity: 0;
+	max-width: 0;
+
+	-webkit-transition: opacity 0.25s, max-width 0.45s; 
+	-moz-transition: opacity 0.25s, max-width 0.45s;
+	-o-transition: opacity 0.25s, max-width 0.45s;
+	transition: opacity 0.25s, max-width 0.45s; /* Duration fixed since we animate additional hidden width */
+}
+
+.has-spinner.active {
+ 	cursor:progress;
+}
+
+.has-spinner.active .spinner {
+	opacity: 1;
+	max-width: 50px; /* More than it will ever come, notice that this affects on animation duration */
+}
+</style>
 <div class="page-content">
 	<!-- BEGIN PAGE HEAD -->
 	<div class="page-head">
@@ -108,7 +129,9 @@
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn default" data-dismiss="modal">Batal</button>
-				<button type="button" onclick="ubah_status();" name="ubah_status" value="Ubah" class="btn blue">Ubah</button>
+				<button type="button" onclick="ubah_status();" id="ubah-status-btn" name="ubah_status" value="Ubah" class="btn blue has-spinner">
+					<span class="spinner"><i class="fa fa-refresh fa-spin"></i></span> Ubah
+				</button>
 			</div>
 		</div>
 		<!-- /.modal-content -->
@@ -140,6 +163,8 @@
 	}
 
 	function ubah_status() {
+		$('#ubah-status-btn').toggleClass('active');
+
 		const data = {
 			id_kost: $('#id_kost').val(),
 			status: $('input[name=status]:checked').val(),
@@ -147,13 +172,12 @@
 			ubah_status: true
 		};
 
-		console.log(data);
-
 		$.ajax({
 			url: '<?= base_url('admin/daftar-kost') ?>',
 			type: 'POST',
 			data: data,
 			success: function(response) {
+				$('#ubah-status-btn').toggleClass('active');
 				$('#modal').modal('hide');
 				let html;
 				if (data.status == 'Verified') {
@@ -166,6 +190,7 @@
 			},
 			error: function(err) { 
 				console.log(err.responseText); 
+				$('#ubah-status-btn').toggleClass('active');
 				$('#modal').modal('hide');
 			}
 		});

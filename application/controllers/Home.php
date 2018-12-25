@@ -80,8 +80,95 @@ class Home extends MY_Controller
 
     public function daftar_kost()
     {
+        $this->load->library('Saw/criteria');
+        $this->load->library('Saw/saw');
+
+        $this->load->model('kriteria_m');
+        $kriteria = $this->kriteria_m->get();
+        $config = [];
+        foreach ($kriteria as $row)
+        {
+            $details = json_decode($row->details, true);
+
+            if ($row->type == 'range') {
+                $max = PHP_INT_MIN;
+                $min = PHP_INT_MAX;
+                $max_idx = -1;
+                $min_idx = -1;
+                for ($i = 0; $i < count($details); $i++)
+                {
+                    if ($details[$i]['max'] > $max) {
+                        $max = $details[$i]['max'];
+                        $max_idx = $i;
+                    }
+
+                    if ($details[$i]['min'] > $min) {
+                        $min = $details[$i]['min'];
+                        $min_idx = $i;
+                    }
+                }
+                $details[$max_idx]['max'] = null;
+                $details[$min_idx]['min'] = null;
+            }
+            else if ($row->type == 'criteria') 
+            {
+                $details = json_decode($row->details, true);
+                $this->data['fasilitas']    = $details;
+            }
+
+            $config[$row->key] = [
+             'key'        => $row->key,
+             'weight'    => $row->weight,
+             'label'        => $row->label,
+             'type'        => $row->type,
+             'values'    => $details
+            ];
+        }
+
+        $this->saw->set_config($config);
+        $this->data['config']         = $this->criteria->get_config();
+        $this->data['fasilitas']    = $this->data['config']['fasilitas']['values'];
         $this->load->model('kost_m');
-        $this->data['kost']        = $this->kost_m->get_by_order('id_kost', 'DESC', ['status' => 'Verified']);
+        $this->data['kost']    = $this->kost_m->get();
+        $rank = [];
+        if (count($this->data['kost']) > 0) 
+        {
+            $this->saw->set_criteria_type(
+                [
+                    'harga_sewa'    => 'cost',
+                    'lokasi'        => 'cost',
+                    'luas_kamar'    => 'benefit',
+                    'fasilitas'     => 'benefit'
+                ]
+            );
+            $this->data['kost'] = array_map(
+                function ($x) {
+                     $x->fasilitas = json_decode($x->fasilitas, true);
+                     return $x;
+                }, $this->data['kost']
+            );
+            $this->saw->fit($this->data['kost'], ['id_kost', 'id_pengguna', 'kost', 'latitude', 'longitude', 'status', 'jumlah_kamar', 'tipe', 'pesan_verifikasi']);
+            $this->saw->normalize();
+            $this->saw->result();
+
+            $rank = $this->saw->rank();
+            $rank = array_map(
+                function ($row) {
+                     $row = (array)$row;
+                     $path = 'assets/foto/kost-' . $row['id_kost'];
+                     if (file_exists(FCPATH . $path))
+                     {
+                        $foto = scandir(FCPATH . $path);
+                        $foto = array_values(array_diff($foto, ['.', '..']));
+                     }
+                     $row['fasilitas'] = implode(',', array_keys($row['fasilitas']));
+                     $row['foto'] = isset($foto[0]) ? base_url($path . '/' . $foto[0]) : 'http://placehold.it/313x313';
+                     return (object)$row;
+                }, $rank
+            );
+
+            $this->data['kost'] = $rank;
+        }
         $this->data['title']    = 'Daftar Kost';
         $this->data['content']    = 'daftar_kost';
         $this->template($this->data, $this->module);

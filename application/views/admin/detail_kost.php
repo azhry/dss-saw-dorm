@@ -148,7 +148,7 @@
         let directionService = new google.maps.DirectionsService();
         directionService.route(request, function(response, status) {
         	directionDisplay.setDirections(response);
-        	$('#jarak').text(response.routes[0].legs[0].distance.value + ' M');
+        	// $('#jarak').text(response.routes[0].legs[0].distance.value + ' M');
         });
 
         geocodeLatLng(currentLocation);

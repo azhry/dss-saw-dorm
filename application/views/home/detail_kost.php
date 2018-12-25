@@ -133,6 +133,13 @@
 			zoom: 16
 		});
 
+		var directionDisplay = new google.maps.DirectionsRenderer({
+        	polylineOptions: {
+        		strokeColor: 'red'
+        	}
+        });
+        directionDisplay.setMap(map);
+
         let markers = [];
         // Create a marker for each place.
         markers.push(new google.maps.Marker({
@@ -149,7 +156,8 @@
 
         let directionService = new google.maps.DirectionsService();
         directionService.route(request, function(response, status) {
-        	$('#jarak').text(response.routes[0].legs[0].distance.value + ' M');
+        	directionDisplay.setDirections(response);
+        	// $('#jarak').text(response.routes[0].legs[0].distance.value + ' M');
         });
 
         geocodeLatLng(currentLocation);

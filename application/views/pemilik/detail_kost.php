@@ -25,7 +25,7 @@
 							<div class="demo">
 								<?php  
 									$path = 'assets/foto/kost-' . $kost->id_kost;
-									$photos = scandir(FCPATH . $path);
+									$photos = file_exists($upload_dir) ? scandir(FCPATH . $path) : [];
 									$photos = array_values(array_diff($photos, ['.', '..']));
 								?>
 							    <ul id="lightSlider">
@@ -94,6 +94,17 @@
 										<td><b>Kontak</b></td>
 										<td><?= $kost->kontak ?></td>
 									</tr>
+									<tr>
+										<td><b>Status</b></td>
+										<td><?= $kost->status ?></td>
+									</tr>
+									<?php if (!empty($kost->pesan_verifikasi)): ?>
+									<tr>
+										<td><b>Pesan Verifikasi</b></td>
+										<td><?= $kost->pesan_verifikasi ?></td>
+									</tr>
+									<?php endif; ?>
+
 									<?php endif; ?>
 								</tbody>
 							</table>
@@ -133,6 +144,13 @@
 			zoom: 16
 		});
 
+		var directionDisplay = new google.maps.DirectionsRenderer({
+        	polylineOptions: {
+        		strokeColor: 'red'
+        	}
+        });
+        directionDisplay.setMap(map);
+
         let markers = [];
         // Create a marker for each place.
         markers.push(new google.maps.Marker({
@@ -149,7 +167,8 @@
 
         let directionService = new google.maps.DirectionsService();
         directionService.route(request, function(response, status) {
-        	$('#jarak').text(response.routes[0].legs[0].distance.value + ' M');
+        	directionDisplay.setDirections(response);
+        	// $('#jarak').text(response.routes[0].legs[0].distance.value + ' M');
         });
 
         geocodeLatLng(currentLocation);

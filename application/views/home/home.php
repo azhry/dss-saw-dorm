@@ -60,6 +60,9 @@
 									</select>
 								</div>
 							</div>
+							<br>
+							<h3>Fasilitas</h3>
+							<br>
 							<table class="table table-striped table-hover table-bordered">
 								<thead>
 									<tr>
