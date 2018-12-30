@@ -58,7 +58,7 @@ class Saw
 			foreach ($keys as $key)
 			{
 				$values = array_column($this->result, $key);
-				$normalizer[$key] = count($values) > 1 ? ($type[$key] === 'cost' ? max($values) : min($values)) : $values[0];
+				$normalizer[$key] = (count($values) > 1) ? ($type[$key] == 'benefit' ? max($values) : min($values)) : $values[0];
 			}
 
 			foreach ($this->result as $row)
@@ -90,9 +90,11 @@ class Saw
 			$total = 0;
 			foreach ($row as $key => $value)
 			{
+				// echo $value . ' * ' . $this->weights[$key] . ' + ';
 				$row[$key] = $this->weights[$key] * $value;
 				$total += $row[$key];
 			}
+			// echo ' = ' . $total . '<br>';
 			$row['total'] = $total;
 			return $row;
 		}, $this->normalized_result);

@@ -127,6 +127,8 @@ class Criteria
 					$criteria_value = $criteria[$k]['values'];
 					foreach ($v as $kk => $vv)
 					{
+						$criteria_value[$kk]['values'] = array_change_key_case($criteria_value[$kk]['values'], CASE_LOWER);
+						$vv = strtolower($vv);
 						if (isset($criteria_value[$kk]['values'][$vv]))
 						{
 							$sum += $criteria_value[$kk]['values'][$vv];
@@ -141,7 +143,6 @@ class Criteria
 					$sum *= $criteria[$k]['weight'];
 					$result += $sum;
 				}
-
 				return $result;
 		}
 

@@ -50,37 +50,37 @@ class Config
 		],
 		'lokasi' => [
 			'key'		=> 'lokasi',
-			'weight'	=> 5,
+			'weight'	=> 4,
 			'label'		=> 'Lokasi',
 			'type'		=> 'range',
 			'values'	=> [
 				[
-					'label'	=> '120 M - 236 M',
+					'label'	=> '142 M - 256,4 M',
 					'min'	=> null,
-					'max'	=> 236,
+					'max'	=> 256.4,
 					'value'	=> 5
 				],
 				[
-					'label'	=> '236,1 M - 352,1 M',
-					'min'	=> 236.1,
-					'max'	=> 352.1,
+					'label'	=> '256,5 M - 370,9 M',
+					'min'	=> 256.5,
+					'max'	=> 370.9,
 					'value'	=> 4
 				],
 				[
-					'label'	=> '352,2 M - 468,2 M',
-					'min'	=> 352.2,
-					'max'	=> 468.2,
+					'label'	=> '371 M - 485,4 M',
+					'min'	=> 371,
+					'max'	=> 485.4,
 					'value'	=> 3
 				],
 				[
-					'label'	=> '468,3 M - 584,3 M',
-					'min'	=> 468.3,
-					'max'	=> 584.3,
+					'label'	=> '485,5 M - 599,9 M',
+					'min'	=> 485.5,
+					'max'	=> 599.9,
 					'value'	=> 2
 				],
 				[
-					'label'	=> '584,4 M - 700,4 M',
-					'min'	=> 584.4,
+					'label'	=> '600 M - 714,4 M',
+					'min'	=> 600,
 					'max'	=> null,
 					'value'	=> 1
 				]
@@ -88,38 +88,38 @@ class Config
 		],
 		'luas_kamar' => [
 			'key'		=> 'luas_kamar',
-			'weight'	=> 4,
+			'weight'	=> 5,
 			'label'		=> 'Luas Kamar',
 			'type'		=> 'range',
 			'values'	=> [
 				[
-					'label'	=> '22 m² - 25 m²',
-					'min'	=> 22,
+					'label'	=> '20,8 m² - 24,4 m²',
+					'min'	=> 20.8,
 					'max'	=> null,
 					'value'	=> 5
 				],
 				[
-					'label'	=> '18 m² - 21 m²',
-					'min'	=> 18,
-					'max'	=> 21,
+					'label'	=> '17,1 m² - 20,7 m²',
+					'min'	=> 17.1,
+					'max'	=> 20.7,
 					'value'	=> 4
 				],
 				[
-					'label'	=> '14 m² - 17 m²',
-					'min'	=> 14,
+					'label'	=> '13,4 m² - 17 m²',
+					'min'	=> 13.4,
 					'max'	=> 17,
 					'value'	=> 3
 				],
 				[
-					'label'	=> '10 m² - 13 m²',
-					'min'	=> 10,
-					'max'	=> 13,
+					'label'	=> '9,7 m² - 13,3 m²',
+					'min'	=> 9.7,
+					'max'	=> 13.3,
 					'value'	=> 2
 				],
 				[
-					'label'	=> '6 m² - 9 m²',
+					'label'	=> '6 m² - 9,6 m²',
 					'min'	=> null,
-					'max'	=> 9,
+					'max'	=> 9.6,
 					'value'	=> 1
 				]
 			]
@@ -143,7 +143,7 @@ class Config
 								'Olympic'		=> 5,
 								'Bola Dunia'	=> 4,
 								'Sinar Dunia'	=> 3,
-								'Biloxy'		=> 2,
+								'Bigland'		=> 2,
 								'dll'			=> 1
 							]
 						],
@@ -159,7 +159,7 @@ class Config
 							'label'		=> 'Ukuran Tempat Tidur',
 							'key'		=> 'ukuran_tempat_tidur',
 							'values'	=> [
-								'160 x 120 cm'	=> 5,
+								'160 x 200 cm'	=> 5,
 								'120 x 200 cm'	=> 4,
 								'90 x 200 cm'	=> 3
 							]

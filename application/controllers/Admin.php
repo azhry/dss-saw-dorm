@@ -106,11 +106,11 @@ class Admin extends MY_Controller
             }
 
             $config[$row->key] = [
-             'key'        => $row->key,
-             'weight'    => $row->weight,
-             'label'        => $row->label,
-             'type'        => $row->type,
-             'values'    => $details
+				'key'        => $row->key,
+				'weight'    => $row->weight,
+				'label'        => $row->label,
+				'type'        => $row->type,
+				'values'    => $details
             ];
         }
 
