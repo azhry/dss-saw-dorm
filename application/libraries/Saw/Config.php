@@ -50,7 +50,7 @@ class Config
 		],
 		'lokasi' => [
 			'key'		=> 'lokasi',
-			'weight'	=> 4,
+			'weight'	=> 5,
 			'label'		=> 'Lokasi',
 			'type'		=> 'range',
 			'values'	=> [
@@ -88,7 +88,7 @@ class Config
 		],
 		'luas_kamar' => [
 			'key'		=> 'luas_kamar',
-			'weight'	=> 5,
+			'weight'	=> 4,
 			'label'		=> 'Luas Kamar',
 			'type'		=> 'range',
 			'values'	=> [
@@ -259,7 +259,7 @@ class Config
 								'200 x 200 cm'	=> 5,
 								'150 x 150 cm'	=> 4,
 								'140 x 120 cm'	=> 3,
-								'100 x 100 cm'	=> 2,
+								'100 x 130 cm'	=> 2,
 								'dll'			=> 1
 							]
 						]

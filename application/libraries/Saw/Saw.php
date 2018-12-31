@@ -55,6 +55,7 @@ class Saw
 			$normalizer = [];
 			$type = $this->criteria->type;
 			$keys = array_keys($this->result[0]);
+			$keys = array_diff($keys, ['kost']);
 			foreach ($keys as $key)
 			{
 				$values = array_column($this->result, $key);
@@ -66,19 +67,23 @@ class Saw
 				$result_row = [];
 				foreach ($row as $key => $value)
 				{
+					if ($key == 'kost') continue;
 					switch ($type[$key])
 					{
 						case 'benefit':
-							$result_row[$key] = $normalizer[$key] == 0 ? 0 : ($value / $normalizer[$key]);
+							$result_row[$key] = round(($normalizer[$key] == 0) ? 0 : ($value / $normalizer[$key]), 2);
 							break;
 
 						case 'cost':
-							$result_row[$key] = $value == 0 ? 0 : ($normalizer[$key] / $value);
+							$result_row[$key] = round(($value == 0) ? 0 : ($normalizer[$key] / $value), 2);
 							break;
 					}
 				}
 				$this->normalized_result []= $result_row;				
 			}
+
+			// var_dump($this->normalized_result);
+			// exit;
 		}
 
 		return $this->normalized_result;
@@ -90,11 +95,9 @@ class Saw
 			$total = 0;
 			foreach ($row as $key => $value)
 			{
-				// echo $value . ' * ' . $this->weights[$key] . ' + ';
 				$row[$key] = $this->weights[$key] * $value;
 				$total += $row[$key];
 			}
-			// echo ' = ' . $total . '<br>';
 			$row['total'] = $total;
 			return $row;
 		}, $this->normalized_result);
