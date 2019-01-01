@@ -26,7 +26,8 @@ class Criteria
 
 	public function set_config($config)
 	{
-		$this->config = $config;
+		Config::$config = $config;
+		$this->config = Config::$config;
 	}
 
 	public function get_type()
@@ -52,12 +53,9 @@ class Criteria
 					$result_row[$key] = $this->feature_map($key, $value);
 				}
 			}
-			$result_row['kost'] = $row->kost;
+
 			$result []= $result_row;
 		}
-
-		// var_dump($result);
-		// exit;
 
 		return $result;
 	}

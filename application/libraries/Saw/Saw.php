@@ -30,7 +30,7 @@ class Saw
 	{
 		$this->criteria = new Criteria();
 		$this->criteria->set_config($config);
-		foreach ($this->criteria->config as $key => $value)
+		foreach ($this->criteria->get_config() as $key => $value)
 		{
 			$this->weights[$key] = $value['weight'];
 		}
@@ -81,9 +81,6 @@ class Saw
 				}
 				$this->normalized_result []= $result_row;				
 			}
-
-			// var_dump($this->normalized_result);
-			// exit;
 		}
 
 		return $this->normalized_result;

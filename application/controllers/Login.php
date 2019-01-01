@@ -43,7 +43,8 @@ class Login extends MY_Controller
 			
 			$this->data = [
     			'username'	=> $this->POST('username'),
-    			'password'	=> md5($this->POST('password'))
+    			// 'password'	=> md5($this->POST('password'))
+				'password'	=> $this->POST('password')
 			];
 
 			$result = $this->pengguna_m->login($this->data);

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: 31 Des 2018 pada 04.21
+-- Generation Time: 01 Jan 2019 pada 08.34
 -- Versi Server: 10.1.28-MariaDB
 -- PHP Version: 7.1.11
 
@@ -107,21 +107,21 @@ CREATE TABLE `pengguna` (
 --
 
 INSERT INTO `pengguna` (`id_pengguna`, `username`, `password`, `nama`, `email`, `kontak`, `id_role`, `alamat`) VALUES
-(1, 'azhry', '985fabf8f96dc1c4c306341031569937', 'Azhary Arliansyah', 'arliansyah_azhary@yahoo.com', '85380109887', 1, 'Komplek Bougenville'),
-(2, 'az', '985fabf8f96dc1c4c306341031569937', 'Azhary Arliansyah', 'azhary.arliansyah@studentpartner.com', '008080808', 2, '-'),
-(3, 'azhary', '985fabf8f96dc1c4c306341031569937', 'Azhary Arliansyah', 'arliansyah_azhary@yahoo.com', '081234265011', 3, 'wre'),
-(4, 'nely', 'ddacf31beb6ed2d13657aedcfa1394d1', 'm', 'nelyyupita00@gmail.com', '09', 3, 'n'),
-(5, 'heru', 'ddacf31beb6ed2d13657aedcfa1394d1', 'Heru', 'nelyyupita00@gmail.com', '081532732398', 1, 'JL. Srijaya Negara Lrg Hasanah'),
-(6, 'siswanto', '985fabf8f96dc1c4c306341031569937', 'Siswanto', 'nelyyupita00@gmail.com', '082380832926/08', 1, 'Ruko Padang Selasa Bukit Besar Seberang UNSRI Lab.Bahasa'),
-(7, 'selamat', 'ddacf31beb6ed2d13657aedcfa1394d1', 'Selamat Hidayat', 'nelyyupita00@gmail.com', '081280808369/08', 1, 'JL. Srijaya Negara Lrg Hasanah'),
-(8, 'edo', 'ddacf31beb6ed2d13657aedcfa1394d1', 'Edo', 'nelyyupita00@gmail.com', '081369179363', 1, 'JL. Srijaya Negara Lrg Siguntang'),
-(9, 'tomi', 'ddacf31beb6ed2d13657aedcfa1394d1', 'Tomi', 'nelyyupita00@gmail.com', '082175491970', 1, 'JL. Srijaya Negara Lrg Tembesu 5 Ilir, Ilir Barat 1'),
-(10, 'wagimin', 'ddacf31beb6ed2d13657aedcfa1394d1', 'Wagimin', 'nelyyupita00@gmail.com', '081540051128', 1, 'JL. Lunjuk Jaya Lorong Sejora 4 No.5388 Gedung dc laundry kec.ilir barat 1 kelurahan lorok pakjo'),
-(11, 'iis', 'ddacf31beb6ed2d13657aedcfa1394d1', 'iis', 'nelyyupita00@gmail.com', '082373408279', 1, 'JL. Masjid Alghazali No.17'),
-(12, 'iyes', 'ddacf31beb6ed2d13657aedcfa1394d1', 'iyes', 'nelyyupita00@gmail.com', '081367224601', 1, 'Jl.srijaya negara lorong tembesu 5'),
-(13, 'wawan', 'ddacf31beb6ed2d13657aedcfa1394d1', 'Wawan', 'nelyyupita00@gmail.com', '085369751489', 1, 'JL. Lunjuk Jaya'),
-(14, 'nely', 'ddacf31beb6ed2d13657aedcfa1394d1', 'nely yupita', 'nelyyupita00@gmail.com', '085788644211', 3, 'puncak sekuning'),
-(15, 'selamat', 'ddacf31beb6ed2d13657aedcfa1394d1', 'Selamat Hidayat', 'nelyyupita00@gmail.com', '081280808369/08', 1, 'JL. Srijaya Negara Lrg Hasanah');
+(1, 'azhry', '4kuGanteng', 'Azhary Arliansyah', 'arliansyah_azhary@yahoo.com', '85380109887', 1, 'Komplek Bougenville'),
+(2, 'az', '4kuGanteng', 'Azhary Arliansyah', 'azhary.arliansyah@studentpartner.com', '008080808', 2, '-'),
+(3, 'azhary', '4kuGanteng', 'Azhary Arliansyah', 'arliansyah_azhary@yahoo.com', '081234265011', 3, 'wre'),
+(4, 'nely', 'nely12345', 'm', 'nelyyupita00@gmail.com', '09', 3, 'n'),
+(5, 'heru', 'nely12345', 'Heru', 'nelyyupita00@gmail.com', '081532732398', 1, 'JL. Srijaya Negara Lrg Hasanah'),
+(6, 'siswanto', 'nely12345', 'Siswanto', 'nelyyupita00@gmail.com', '082380832926/08', 1, 'Ruko Padang Selasa Bukit Besar Seberang UNSRI Lab.Bahasa'),
+(7, 'selamat', 'nely12345', 'Selamat Hidayat', 'nelyyupita00@gmail.com', '081280808369/08', 1, 'JL. Srijaya Negara Lrg Hasanah'),
+(8, 'edo', 'nely12345', 'Edo', 'nelyyupita00@gmail.com', '081369179363', 1, 'JL. Srijaya Negara Lrg Siguntang'),
+(9, 'tomi', 'nely12345', 'Tomi', 'nelyyupita00@gmail.com', '082175491970', 1, 'JL. Srijaya Negara Lrg Tembesu 5 Ilir, Ilir Barat 1'),
+(10, 'wagimin', 'nely12345', 'Wagimin', 'nelyyupita00@gmail.com', '081540051128', 1, 'JL. Lunjuk Jaya Lorong Sejora 4 No.5388 Gedung dc laundry kec.ilir barat 1 kelurahan lorok pakjo'),
+(11, 'iis', 'nely12345', 'iis', 'nelyyupita00@gmail.com', '082373408279', 1, 'JL. Masjid Alghazali No.17'),
+(12, 'iyes', 'nely12345', 'iyes', 'nelyyupita00@gmail.com', '081367224601', 1, 'Jl.srijaya negara lorong tembesu 5'),
+(13, 'wawan', 'nely12345', 'Wawan', 'nelyyupita00@gmail.com', '085369751489', 1, 'JL. Lunjuk Jaya'),
+(14, 'nely', 'nely12345', 'nely yupita', 'nelyyupita00@gmail.com', '085788644211', 3, 'puncak sekuning'),
+(15, 'selamat', 'nely12345', 'Selamat Hidayat', 'nelyyupita00@gmail.com', '081280808369/08', 1, 'JL. Srijaya Negara Lrg Hasanah');
 
 -- --------------------------------------------------------
 
