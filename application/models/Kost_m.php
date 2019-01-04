@@ -39,13 +39,13 @@ class Kost_m extends MY_Model
 		];
 	}
 
-	private function calculate_range($min, $max, $n)
+	private function calculate_range($min, $max, $n, $inc = 0.1)
 	{
 		$range = ($max - $min) / $n;
 		$range_set = [];
 		for ($i = 0; $i < $n; $i++)
 		{
-			if ($i > 0) $min += 0.1;
+			if ($i > 0) $min += $inc;
 
 			$range_set []= [
 				'min'	=> $min,

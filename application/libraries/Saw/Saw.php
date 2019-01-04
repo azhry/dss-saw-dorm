@@ -71,18 +71,18 @@ class Saw
 					switch ($type[$key])
 					{
 						case 'benefit':
-							$result_row[$key] = round(($normalizer[$key] == 0) ? 0 : ($value / $normalizer[$key]), 2);
+							$result_row[$key] = round(($normalizer[$key] == 0) ? 0 : ($value / $normalizer[$key]), 3);
 							break;
 
 						case 'cost':
-							$result_row[$key] = round(($value == 0) ? 0 : ($normalizer[$key] / $value), 2);
+							$result_row[$key] = round(($value == 0) ? 0 : ($normalizer[$key] / $value), 3);
 							break;
 					}
 				}
+				$result_row['kost'] = $row['kost'];
 				$this->normalized_result []= $result_row;				
 			}
 		}
-
 		return $this->normalized_result;
 	}
 
@@ -92,6 +92,8 @@ class Saw
 			$total = 0;
 			foreach ($row as $key => $value)
 			{
+				if ($key == 'kost') continue;
+
 				$row[$key] = $this->weights[$key] * $value;
 				$total += $row[$key];
 			}

@@ -53,7 +53,7 @@ class Criteria
 					$result_row[$key] = $this->feature_map($key, $value);
 				}
 			}
-
+			$result_row['kost'] = $row->kost;
 			$result []= $result_row;
 		}
 
