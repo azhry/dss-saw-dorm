@@ -66,8 +66,7 @@ class Home extends MY_Controller
 
         $this->saw->set_config($config);
         $this->data['config']         = $this->criteria->get_config();
-        $this->data['fasilitas']    = $this->data['config']['fasilitas']['values'];
-        $this->data['fasilitas']    = $this->data['config']['fasilitas']['values'];
+        $this->data['fasilitas']    = $config['fasilitas']['values'];
         $this->data['title']        = 'Home';
         $this->data['content']      = 'home';
         $this->template($this->data, $this->module);    
@@ -286,12 +285,27 @@ class Home extends MY_Controller
                 foreach ($value['values'] as $k => $v)
                 {
                     $key = $this->POST($k);
-                    if (isset($key) && !empty($key)) {
-                        if (strlen($cond) > 0 && $i <= 0) {
+                    if (isset($key) && !empty($key)) 
+                    {
+                        if (strlen($cond) > 0 && $i <= 0) 
+                        {
                             $cond .= 'AND ';
                         }
-                        $cond .= ($i > 0 ? 'AND ' : ' ') . 'fasilitas LIKE \'%';
-                        $cond .= '"' . $k . '":"' . $this->POST($k) . '"%\' ';
+                        if ($key == 'dll')
+                        {
+                            $cond .= ($i > 0 ? 'AND ' : ' ') . 'fasilitas LIKE \'%';
+                            $cond .= '"' . $k . '":%\' ';
+                            foreach ($v['values'] as $kk => $vv)
+                            {
+                                $cond .= 'AND fasilitas NOT LIKE \'%';
+                                $cond .= '"' . $k . '":"' . $kk . '"%\' ';
+                            }
+                        }
+                        else
+                        {
+                            $cond .= ($i > 0 ? 'AND ' : ' ') . 'fasilitas LIKE \'%';
+                            $cond .= '"' . $k . '":"' . $this->POST($k) . '"%\' ';
+                        }
                         $i++;
                     }
                 }

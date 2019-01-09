@@ -71,11 +71,11 @@ class Saw
 					switch ($type[$key])
 					{
 						case 'benefit':
-							$result_row[$key] = round(($normalizer[$key] == 0) ? 0 : ($value / $normalizer[$key]), 3);
+							$result_row[$key] = round(($normalizer[$key] == 0) ? 0 : ($value / $normalizer[$key]), 2);
 							break;
 
 						case 'cost':
-							$result_row[$key] = round(($value == 0) ? 0 : ($normalizer[$key] / $value), 3);
+							$result_row[$key] = round(($value == 0) ? 0 : ($normalizer[$key] / $value), 2);
 							break;
 					}
 				}

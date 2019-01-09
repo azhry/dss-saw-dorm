@@ -417,7 +417,7 @@ class Config
 							'label'		=> 'Laundry',
 							'key'		=> 'laundry',
 							'values'	=> [
-								'2 baju 1 celana/hari'	=> 5
+								'2 baju 1 celana / hari'	=> 5
 							]
 						]
 					]
